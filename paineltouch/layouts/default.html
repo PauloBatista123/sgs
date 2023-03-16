@@ -1,0 +1,174 @@
+<div id="header">
+    <img ng-src="{{ctrl.urlLogo}}" alt="logo" width="250">
+    <h1 ng-if="!ctrl.cliente.nome">Seja bem vindo!</h1>
+    <h1 ng-if="ctrl.cliente.nome != ''">Seja bem vindo {{ctrl.cliente.nome}}! </h1>
+    <span>Retire sua senha tocando na opção desejada</p>
+</div>
+<!-- 
+    Escolher entre convencional ou prioridade
+-->
+<div id="identificacao" class="page first">
+    <div class="col-xs-12">
+        <div class="touch-control convencional">
+            <button class="btn btn-lg btn-block" ng-click="ctrl.identificar(true)">
+                Quero me identificar
+                <img ng-src="{{ctrl.meIdentificar}}" alt="" width="60"/>
+            </button>
+        </div>
+    </div>
+    <div class="col-xs-12">
+        <div class="touch-control prioridade">
+            <button class="btn btn-lg btn-block" ng-click="ctrl.identificar(false)">
+                Não desejo me identificar
+                <img ng-src="{{ctrl.naoIdentificar}}" alt="" width="60"/>
+            </button>
+        </div>
+    </div>
+</div>
+<!-- 
+    Lista dos serviços disponíveis
+-->
+<div id="identificarCooperado" class="page">
+    <div class="col-xs-12">
+        <div class="touch-control identificador">
+            <p>Informe seu CPF ou CNPJ:</p>
+            <input type="text" name="cpfcnpj" id="cpfcnpj" class="inputCooperado" ng-model="ctrl.cpfcnpj" required>
+            <button class="btn btn-lg btn-block" ng-click="ctrl.buscarCooperado()">
+                Próxima etapa
+                <i class="fa-solid fa-user-check"></i>
+            </button>
+            <div ng-if="ctrl.cliente.error" class="buscarCooperadoErro">
+                <p>Ops! Não encontramos nenhuma informação em nossa base. Confira os dados informados!</p>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 
+    Lista dos serviços disponíveis
+-->
+<div id="servicos" class="page">
+    <div ng-class="ctrl.itemStyleClass($index, ctrl.paginator.items())" ng-repeat="servico in ctrl.paginator.items()" ng-hide="servico.hide">
+        <div class="touch-control">
+            <button class="btn btn-lg btn-block" ng-click="ctrl.tipoAtendimento(servico.id)">
+                <span>{{servico.nome}}</span>
+                <span ng-if="servico.nome == 'Atendimento'">
+                    <img ng-src="{{ctrl.imgAtendimento}}" alt="" width="60"/>
+                </span>
+                <span ng-if="servico.nome == 'Caixa'">
+                    <img ng-src="{{ctrl.imgCheque}}" alt="" width="60"/>
+                    <img ng-src="{{ctrl.imgCodigo}}" alt="" width="60"/>
+                    <img ng-src="{{ctrl.imgDinheiro}}" alt="" width="60"/>
+                </span>
+                <span ng-if="servico.nome == 'Gerência'">
+                    <img ng-src="{{ctrl.imgGerente}}" alt="" width="60"/>
+                </span>
+            </button>
+        </div>
+    </div>
+</div>
+<!-- 
+    Lista dos serviços disponíveis
+-->
+<div id="gerentes" class="page">
+    <div class="col-xs-6" ng-repeat="gerente in ctrl.gerentes" >
+        <div class="touch-control">
+            <button class="btn btn-lg btn-block" ng-click="ctrl.selecionaGerente(gerente)">
+                <span>{{gerente.nome}}</span>
+                <img ng-src="{{ctrl.imgGerente}}" alt="" width="60"/>
+            </button>
+        </div>
+    </div>
+    <div class="col-xs-6">
+        <div class="touch-control">
+            <button class="btn btn-lg btn-block" ng-click="ctrl.selecionaGerente('')">
+                <span>Sem preferência</span>
+                <img ng-src="{{ctrl.imgSemPreferencia}}" alt="" width="60"/>
+            </button>
+        </div>
+    </div>
+</div>
+<!-- 
+    Lista das prioridades disponíveis
+-->
+<div id="prioridades" class="page">
+    <div class="col-xs-12" ng-repeat="prioridade in ctrl.prioridades">
+        <div class="touch-control convencional">
+            <button class="btn btn-lg btn-block" ng-click="ctrl.distribuiSenha(prioridade.id)">
+                {{prioridade.nome}}
+                <span ng-if="prioridade.id == 7">
+                    <img ng-src="{{ctrl.cadeirante}}" alt="" width="60" />
+                    <img ng-src="{{ctrl.autismo}}" alt="" width="50"/>
+                    <img ng-src="{{ctrl.gravida}}" alt="" width="30"/>
+                    <img ng-src="{{ctrl.cegos}}" alt="" width="60"/>
+                    <img ng-src="{{ctrl.surdos}}" alt="" width="60"/>
+                    <img ng-src="{{ctrl.mae}}" alt="" width="40"/>
+                    <img ng-src="{{ctrl.idosos}}" alt="" width="50"/>
+                </span>
+                <span ng-if="prioridade.id == 8">
+                    <img ng-src="{{ctrl.prioritario}}" alt="" width="60"/>
+                </span>
+                <span ng-if="prioridade.id == 9">
+                    <img ng-src="{{ctrl.convencional}}" alt="" width="60"/>
+                </span>
+            </button>
+        </div>
+    </div>
+</div>
+<!-- 
+    Aviso de senha sendo impressa
+-->
+<div id="printing" class="page">
+    <div class="ticket">
+        <div class="ticket-header">
+            <h1>Imprimindo</h1>
+            <p>Por favor aguarde a impressão da senha</p>
+        </div>
+        <div class="ticket-body">
+            {{ctrl.atendimento.senha}}
+        </div>
+        <div class="ticket-footer">
+            {{ctrl.atendimento.servico}}
+        </div>
+    </div>
+</div>
+
+<div class="page-buttons">
+    <div data-target="#servicos" class="buttons">
+        <button class="btn btn-lg btn-default pull-left" ng-click="ctrl.paginator.prev()" ng-show="ctrl.paginator.hasPrev()">
+            <span class="icon glyphicon glyphicon-chevron-left"></span>
+            Página anterior
+        </button>
+
+        <button class="btn btn-lg btn-default pull-right" ng-click="ctrl.paginator.next()" ng-show="ctrl.paginator.hasNext()">
+            Próxima página
+            <span class="icon glyphicon glyphicon-chevron-right"></span>
+        </button>
+    </div>
+    
+    <div data-target="#tipo-atendimento" class="buttons">
+        <button class="btn btn-lg btn-default pull-left" ng-click="ctrl.inicio()">
+            <span class="icon glyphicon glyphicon-chevron-left"></span>
+            Voltar para serviços
+        </button>
+    </div>
+    
+    <div data-target="#prioridades" class="buttons">
+        <button class="btn btn-lg btn-default pull-left" ng-click="ctrl.inicio()">
+            <span class="icon glyphicon glyphicon-chevron-left"></span>
+            Voltar para serviços
+        </button>
+    </div>
+
+    <div data-target="#servicos" class="buttons">
+        <button class="btn btn-lg btn-default pull-left" ng-click="ctrl.inicio()">
+            <span class="icon glyphicon glyphicon-chevron-left"></span>
+            Voltar para identificação
+        </button>
+    </div>
+    <div data-target="#identificarCooperado" class="buttons">
+        <button class="btn btn-lg btn-default pull-left" ng-click="ctrl.inicio()">
+            <span class="icon glyphicon glyphicon-chevron-left"></span>
+            Voltar para identificação
+        </button>
+    </div>
+</div>

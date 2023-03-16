@@ -2,6 +2,7 @@
 
 namespace Novosga\Api;
 
+use Doctrine\ORM\QueryBuilder;
 use Exception;
 use Novosga\Service\AtendimentoService;
 
@@ -25,8 +26,7 @@ class ApiV1 extends Api
             FROM
                 Novosga\Model\Prioridade e
             WHERE
-                e.status = 1 AND
-                e.peso > 0
+                e.status = 1
             ORDER BY
                 e.nome ASC
         ')->getResult();
@@ -66,6 +66,25 @@ class ApiV1 extends Api
             ORDER BY
                 e.nome ASC
         ')->getResult();
+    }
+
+    /**
+     * Retorna os gerentes por serviço.
+     *
+     * @return array
+     */
+    public function usuariosGerencia()
+    {
+        return $this->em->createQuery('
+            SELECT
+                u.nome, u.status, u.id
+            FROM
+                Novosga\Model\ServicoUsuario s
+                JOIN s.usuario u
+            WHERE
+                s.servico = :servico AND u.status = 1 AND u.id <> 1
+        ')->setParameter(':servico', 2)
+          ->getResult();
     }
 
     /**
@@ -240,10 +259,10 @@ class ApiV1 extends Api
     /**
      * Distribui uma nova senha.
      */
-    public function distribui($unidade, $usuario, $servico, $prioridade, $nomeCliente, $documentoCliente)
+    public function distribui($unidade, $usuario, $servico, $prioridade, $nomeCliente, $documentoCliente, $usuarioReference)
     {
         $service = new AtendimentoService($this->em);
 
-        return $service->distribuiSenha($unidade, $usuario, $servico, $prioridade, $nomeCliente, $documentoCliente)->jsonSerialize();
+        return $service->distribuiSenha($unidade, $usuario, $servico, $prioridade, $nomeCliente, $documentoCliente, $usuarioReference)->jsonSerialize();
     }
 }

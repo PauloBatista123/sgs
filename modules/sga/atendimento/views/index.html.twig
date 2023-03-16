@@ -1,11 +1,12 @@
 {% extends "module.html.twig" %}
 {% block moduleContent %}
+
     <div id="dialog-local" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">{% trans %}Guichê{% endtrans %}</h4>
+                    <h5 class="modal-title">{% trans %}Alterar Ghichê{% endtrans %}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form id="local_form" action="#" method="post" role="form">
@@ -62,200 +63,231 @@
     {% else %}
         {# local definido, exibe tela de atendimento #}
         <div id="atendimento">
-            <div class="row">
-                <div class="col-sm-3 col-md-2">
-                    <div id="local">
-                        <span class="label-local">{% trans %}Guichê{% endtrans %}</span>
-                        <span class="numero config-numero-local">{{ local }}</span>
-                        <a href="#dialog-local" data-toggle="modal">{% trans %}Alterar{% endtrans %}</a>
+            <div class="card">
+                <div class="row">
+                    <div class="col-sm-3 col-md-2">
+                        <div id="local">
+                            <span class="label-local">{% trans %}Guichê{% endtrans %}</span>
+                            <span class="numero config-numero-local">{{ local }}</span>
+                            <a type="button" data-bs-target="#dialog-local" data-bs-toggle="modal">{% trans %}Alterar{% endtrans %}</a>
+                        </div>
                     </div>
-                </div>
-                <div class="col-sm-9 col-md-10">
-                    <div id="controls">
-                        <div id="chamar" class="control" style="display:none">
-                            <div class="row">
-                                <div class="col-xs-12 col-md-4">
-                                    <button class="btn btn-default btn-block btn-control chamar"
-                                            onclick="SGA.Atendimento.chamar(this)"
-                                            title="{% trans %}Chamar próximo{% endtrans %}"
-                                            disabled="disabled">
-                                        <span>{% trans %}Chamar próximo{% endtrans %}</span>
-                                    </button>
+                    <div class="col-sm-9 col-md-10">
+                        <div id="controls">
+                            <div id="chamar" class="control">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <button class="btn btn-control-chamar chamar"
+                                                onclick="SGA.Atendimento.chamar(this)"
+                                                title="{% trans %}Chamar próximo{% endtrans %}"
+                                                disabled="disabled"
+                                                id="sga-block"
+                                                >
+                                                <i class="fa-solid fa-bullhorn fa-2xl"></i>
+                                                {% trans %}Chamar próximo{% endtrans %}
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div id="iniciar" class="control" style="display:none">
-                            <div class="senha">
-                                <h3 class="title">{% trans %}Atendimento{% endtrans %}</h3>
-                                <ul class="info {% if atendimento and atendimento.senha.isPrioridade %}prioridade{% endif %}">
-                                    <li class="numero">
-                                        <span class="atend-label">{% trans %}Senha|Bilhete{% endtrans %}</span>
-                                        <span class="atend-value">{{ atendimento.senha }}</span>
-                                    </li>
-                                    <li class="servico">
-                                        <span class="atend-label">{% trans %}Serviço{% endtrans %}</span>
-                                        <span class="atend-value">{{ atendimento.servicoUnidade.nome }}</span>
-                                    </li>
-                                    <li class="nome-prioridade">
-                                        <span class="atend-label">{% trans %}Prioridade{% endtrans %}</span>
-                                        <span class="atend-value">{{ atendimento.senha.prioridade.nome }}</span>
-                                    </li>
-                                    <li class="nome">
-                                        <span class="atend-label">{% trans %}Nome{% endtrans %}</span>
-                                        <span class="atend-value">
-                                            {% if atendimento.cliente.nome %}
-                                                {{ atendimento.cliente.nome }}
-                                            {% else %}
-                                                -
-                                            {% endif %}
-                                        </span>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="row">
-                                <div class="col-xs-4">
-                                    <button class="btn btn-default btn-block btn-control chamar_novamente"
-                                            onclick="SGA.Atendimento.chamar_novamente(this)"
-                                            title="{% trans %}Chamar novamente{% endtrans %}">
-                                        <span>{% trans %}Chamar novamente{% endtrans %}</span>
-                                    </button>
+                            <div id="iniciar" class="control" style="display:none">
+                                <div class="senha">
+                                    <h3 class="title">{% trans %}Atendimento{% endtrans %}</h3>
+                                    <div class="info {% if atendimento and atendimento.senha.isPrioridade %}prioridade{% endif %}">
+                                        <div class="numero">
+                                            <span class="atend-label">{% trans %}Senha|Bilhete{% endtrans %}</span>
+                                            <span class="atend-value">{{ atendimento.senha }}</span>
+                                        </div>
+                                        <div class="servico">
+                                            <span class="atend-label">{% trans %}Serviço{% endtrans %}</span>
+                                            <span class="atend-value">{{ atendimento.servicoUnidade.servico.nome }}</span>
+                                        </div>
+                                        <div class="nome-prioridade">
+                                            <span class="atend-label">{% trans %}Prioridade{% endtrans %}</span>
+                                            <span class="atend-value">{{ atendimento.senha.prioridade.nome }}</span>
+                                        </div>
+                                        <div class="nome">
+                                            <span class="atend-label">{% trans %}Nome{% endtrans %}</span>
+                                            <span class="atend-value">
+                                                {% if atendimento.cliente.nome %}
+                                                    {{ atendimento.cliente.nome }}
+                                                {% else %}
+                                                    -
+                                                {% endif %}
+                                            </span>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col-xs-4">
-                                    <button class="btn btn-default btn-block btn-control iniciar"
-                                            onclick="SGA.Atendimento.iniciar(this)"
-                                            title="{% trans %}Iniciar atendimento{% endtrans %}">
-                                        <span>{% trans %}Iniciar atendimento{% endtrans %}</span>
-                                    </button>
-                                </div>
-                                <div class="col-xs-4">
-                                    <button class="btn btn-default btn-block btn-control nao_compareceu"
-                                            onclick="SGA.Atendimento.nao_compareceu(this)"
-                                            title="{% trans %}Não compareceu{% endtrans %}">
-                                        <span>{% trans %}Não compareceu{% endtrans %}</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <div id="encerrar" class="control" style="display:none">
-                            <div class="senha">
-                                <h3 class="title">{% trans %}Atendimento{% endtrans %}</h3>
-                                <ul class="info {% if atendimento and atendimento.senha.isPrioridade %}prioridade{% endif %}">
-                                    <li class="numero">
-                                        <span class="atend-label">{% trans %}Senha|Bilhete{% endtrans %}</span>
-                                        <span class="atend-value">{{ atendimento.senha }}</span>
-                                    </li>
-                                    <li class="servico">
-                                        <span class="atend-label">{% trans %}Serviço{% endtrans %}</span>
-                                        <span class="atend-value">{{ atendimento.servicoUnidade.nome }}</span>
-                                    </li>
-                                    <li class="nome-prioridade">
-                                        <span class="atend-label">{% trans %}Prioridade{% endtrans %}</span>
-                                        <span class="atend-value">{{ atendimento.senha.prioridade.nome }}</span>
-                                    </li>
-                                    <li class="nome">
-                                        <span class="atend-label">{% trans %}Nome{% endtrans %}</span>
-                                        <span class="atend-value">
-                                            {% if atendimento.cliente.nome %}
-                                                {{ atendimento.cliente.nome }}
-                                            {% else %}
-                                                -
-                                            {% endif %}
-                                        </span>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="row">
-                                <div class="col-xs-4">
-                                    <button class="btn btn-default btn-block btn-control chamar_novamente"
-                                            onclick="SGA.Atendimento.chamar_novamente(this)"
-                                            title="{% trans %}Chamar novamente{% endtrans %}">
-                                        <span>{% trans %}Chamar novamente{% endtrans %}</span>
-                                    </button>
-                                </div>
-                                <div class="col-xs-4">
-                                    <button class="btn btn-default btn-block btn-control encerrar"
-                                            onclick="SGA.Atendimento.encerrar(this)"
-                                            title="{% trans %}Encerrar atendimento{% endtrans %}">
-                                        <span>{% trans %}Encerrar atendimento{% endtrans %}</span>
-                                    </button>
-                                </div>
-                                <div class="col-xs-4">
-                                    <button class="btn btn-default btn-block btn-control erro_triagem"
-                                            onclick="SGA.Atendimento.erro_triagem(this)"
-                                            title="{% trans %}Erro de triagem{% endtrans %}">
-                                        <span>{% trans %}Erro de triagem{% endtrans %}</span>
-                                    </button>
+                                <div class="row">
+                                    <div class="col-xs-4 col-md-4 col-lg-4">
+                                        <button class="btn btn-control btn-control-success chamar_novamente"
+                                                onclick="SGA.Atendimento.chamar_novamente(this)"
+                                                title="{% trans %}Chamar novamente{% endtrans %}">
+                                                <i class="fa-solid fa-bullhorn fa-xl"></i>
+                                            {% trans %}Chamar novamente{% endtrans %}
+                                        </button>
+                                    </div>
+                                    <div class="col-xs-4 col-md-4 col-lg-4">
+                                        <button class="btn btn-control btn-control-iniciar iniciar"
+                                                onclick="SGA.Atendimento.iniciar(this)"
+                                                title="{% trans %}Iniciar atendimento{% endtrans %}">
+                                                <i class="fa-regular fa-circle-play fa-xl"></i>
+                                            {% trans %}Iniciar atendimento{% endtrans %}
+                                        </button>
+                                    </div>
+                                    <div class="col-xs-4 col-md-4 col-lg-4">
+                                        <button class="btn btn-control btn-control-nao-compareceu nao_compareceu"
+                                                onclick="SGA.Atendimento.nao_compareceu(this)"
+                                                title="{% trans %}Não compareceu{% endtrans %}">
+                                                <i class="fa-solid fa-ban fa-xl"></i>
+                                            {% trans %}Não compareceu{% endtrans %}
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div id="codificar" class="control" style="display:none">
-                            <div class="col-xs-6">
-                                <h3>{% trans %}Serviços disponíveis{% endtrans %}</h3>
-                                <ul id="macro-servicos" class="items">
-                                    {% for su in servicos %}
-                                        <li id="servico-{{ su.servico.id }}">
-                                            {% if su.servico.subServicos|length == 0 %}
-                                                <a href="javascript:void(0)"
-                                                   onclick="SGA.Atendimento.addServico(this)"
-                                                   data-id="{{ su.servico.id }}"
-                                                   title="{% trans %}Adicionar{% endtrans %}">
-                                                    {{ su.servico.nome }}
-                                                </a>
-                                            {% else %}
-                                                {{ su.servico.nome }}
-                                                <ul>
-                                                {% for sub in su.servico.subServicos %}
-                                                    <li id="servico-{{ sub.id }}">
+                            <div id="encerrar" class="control" style="display:none">
+                                <div class="senha">
+                                    <div class="d-flex flex-row justify-content-between mx-3">
+                                        <h3 class="title">{% trans %}Atendimento em andamento {% endtrans %} </h3> 
+                                        <div class="mb-2">
+                                            <span class="badge badge-success inicio " id="dataChegada">
+                                            Emissão da senha: {{atendimento.dataChegada |date('d-m-Y H:i:s')}}
+                                            </span>
+                                            <span class="badge badge-secondary inicio" id="dataInicio">
+                                            Início Atendimento: {{atendimento.dataInicio |date('d-m-Y H:i:s')}}
+                                            </span>
+                                        </div>
+                                    </div>                                    
+                                    <div class="info {% if atendimento and atendimento.senha.isPrioridade %}prioridade{% endif %}">
+                                        <div class="numero">
+                                            <span class="atend-label">{% trans %}Senha|Bilhete{% endtrans %}</span>
+                                            <span class="atend-value">{{ atendimento.senha }}</span>
+                                        </div>
+                                        <div class="servico">
+                                            <span class="atend-label">{% trans %}Serviço{% endtrans %}</span>
+                                            <span class="atend-value">{{ atendimento.servicoUnidade.servico.nome }}</span>
+                                        </div>
+                                        <div class="nome-prioridade">
+                                            <span class="atend-label">{% trans %}Prioridade{% endtrans %}</span>
+                                            <span class="atend-value">{{ atendimento.senha.prioridade.nome }}</span>
+                                        </div>
+                                        <div class="nome">
+                                            <span class="atend-label">{% trans %}Nome{% endtrans %}</span>
+                                            <span class="atend-value">
+                                                {% if atendimento.cliente.nome %}
+                                                    {{ atendimento.cliente.nome }}
+                                                {% else %}
+                                                    -
+                                                {% endif %}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-4 col-md-4 col-lg-4">
+                                        <button class="btn btn-control btn-control-success chamar_novamente"
+                                                onclick="SGA.Atendimento.chamar_novamente(this)"
+                                                title="{% trans %}Chamar novamente{% endtrans %}">
+                                                <i class="fa-solid fa-bullhorn fa-xl"></i>
+                                            {% trans %}Chamar novamente{% endtrans %}
+                                        </button>
+                                    </div>
+                                    <div class="col-xs-4 col-md-4 col-lg-4">
+                                        <button class="btn btn-control btn-control-encerrar encerrar"
+                                                onclick="SGA.Atendimento.encerrar(this)"
+                                                title="{% trans %}Encerrar atendimento{% endtrans %}">
+                                                <i class="fa-regular fa-circle-check fa-xl"></i>
+                                            {% trans %}Encerrar atendimento{% endtrans %}
+                                        </button>
+                                    </div>
+                                    <div class="col-xs-4 col-md-4 col-lg-4">
+                                        <button class="btn btn-control btn-control-erro erro_triagem"
+                                                onclick="SGA.Atendimento.erro_triagem(this)"
+                                                title="{% trans %}Erro de triagem{% endtrans %}">
+                                                <i class="fa-solid fa-bomb fa-xl"></i>
+                                           {% trans %}Erro de triagem{% endtrans %}
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="codificar" class="control" style="display:none">
+                                <div class="row">
+                                    <div class="col-xs-6 col-md-6 col-lg-6">
+                                        <h3>{% trans %}Serviços disponíveis{% endtrans %}</h3>
+                                        <ul id="macro-servicos" class="items">
+                                            {% for su in servicos %}
+                                                <li class="servico" id="servico-{{ su.servico.id }}">
+                                                    {% if su.servico.subServicos|length == 0 %}
                                                         <a href="javascript:void(0)"
-                                                           onclick="SGA.Atendimento.addServico(this)"
-                                                           data-id="{{ sub.id }}"
-                                                           title="{% trans %}Adicionar{% endtrans %}">
-                                                            {{ sub.nome }}
+                                                        onclick="SGA.Atendimento.addServico(this)"
+                                                        data-id="{{ su.servico.id }}"
+                                                        title="{% trans %}Adicionar{% endtrans %}">
+                                                            {{ su.servico.nome }}
                                                         </a>
-                                                    </li>
-                                                {% endfor %}
-                                                </ul>
-                                            {% endif %}
-                                        </li>
-                                    {% endfor %}
-                                </ul>
-                            </div>
-                            <div class="col-xs-6">
-                                <h3>{% trans %}Serviços realizados{% endtrans %}</h3>
-                                <ul id="servicos-realizados" class="items">
-                                </ul>
-                                <div class="redirecionar">
-                                    <input id="encerrar-redirecionar" type="checkbox" value="1" />
-                                    <label for="encerrar-redirecionar"
-                                           title="{% trans %}Marque para codificar e redirecionar o atendimento atual{% endtrans %}">
-                                        <span>{% trans %}Redirecionar atendimento ao encerrar {% endtrans %}</span>
-                                    </label>
+                                                    {% else %}
+                                                        <p>{{ su.servico.nome }}</p>
+                                                        <ul>
+                                                        {% for sub in su.servico.subServicos %}
+                                                            <li class="subservico" id="servico-{{ sub.id }}">
+                                                                <a href="javascript:void(0)"
+                                                                onclick="SGA.Atendimento.addServico(this)"
+                                                                data-id="{{ sub.id }}"
+                                                                title="{% trans %}Adicionar{% endtrans %}">
+                                                                    {{ sub.nome }}
+                                                                </a>
+                                                            </li>
+                                                        {% endfor %}
+                                                        </ul>
+                                                    {% endif %}
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                    <div class="col-xs-6 col-md-6 col-lg-6">
+                                        <h3>{% trans %}Serviços realizados{% endtrans %}</h3>
+                                        <ul id="servicos-realizados" class="items">
+                                        </ul>
+                                    </div>
                                 </div>
-                                <button class="btn btn-default btn-block btn-control codificar"
-                                        onclick="SGA.Atendimento.codificar(this)"
-                                        title="{% trans %}Encerrar atendimento{% endtrans %}">
-                                    <span>{% trans %}Encerrar atendimento{% endtrans %}</span>
-                                </button>
+                                <div class="row mt-4">
+                                    <div class="col-xs-12 col-md-12 col-lg-12">
+                                        <div class="redirecionar">
+                                            <input id="encerrar-redirecionar" type="checkbox" value="1" />
+                                            <label for="encerrar-redirecionar"
+                                                title="{% trans %}Marque para codificar e redirecionar o atendimento atual{% endtrans %}">
+                                                <span>{% trans %}Redirecionar atendimento ao encerrar {% endtrans %}</span>
+                                            </label>
+                                        </div>
+                                        <button class="btn btn-control btn-control-success codificar"
+                                                onclick="SGA.Atendimento.codificar(this)"
+                                                title="{% trans %}Encerrar atendimento{% endtrans %}">
+                                            <span>{% trans %}Encerrar atendimento{% endtrans %}</span>
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div id="fila">
-                <h4>{% trans %}Minha fila{% endtrans %} (<span class="tipo-{{ usuario.tipoAtendimento }} config-tipo-atendimento">{{ tiposAtendimento[tipoAtendimento] }}</span>):</h4>
-                <ul></ul>
+            <div class="fila">
+                <div class="card-header">
+                    <h4><img src="{{ resources('images/fila.png', module.chave) }}" alt="fila" width="20"> {% trans %}Minha fila{% endtrans %} (<span class="tipo-{{ usuario.tipoAtendimento }} config-tipo-atendimento">{{ tiposAtendimento[tipoAtendimento] }}</span>):</h4>
+                </div>
+                <div class="card-body">
+                    <div id="lista-fila"></div>
+                </div>
             </div>
         </div>
-        <p class="links">
-            <a href="#dialog-busca" class="btn btn-default" data-toggle="modal">
-                <span class="glyphicon glyphicon-search"></span>&nbsp;
+        <div class="links">
+            <a type="button" data-bs-target="#dialog-busca" class="btn btn-primary btn-lg" data-bs-toggle="modal">
+                <i class="fa-solid fa-magnifying-glass"></i>
                 {% trans %}Consultar senha{% endtrans %}
             </a>
-            <button id="notification" type="button" class="btn btn-warning" onclick="SGA.Notification.request(this)" style="display: none">
-                <span class="glyphicon glyphicon-exclamation-sign"></span>&nbsp;
+            <button id="notification" type="button" class="btn btn-success btn-lg" onclick="SGA.Notification.request(this)" style="display: none">
+                <i class="fa-regular fa-bell"></i>
                 {% trans %}Habilitar notificação{% endtrans %}
             </button>
-        </p>
+        </div>
 
         {# dialog redirecionar #}
         <div id="dialog-redirecionar" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
@@ -290,20 +322,18 @@
 
         {# dialog busca #}
         <div id="dialog-busca" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-xl">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title">{% trans %}Busca{% endtrans %}</h4>
+                        <h5 class="modal-title">{% trans %}Buscar Senha{% endtrans %}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <form class="form-inline" role="form" onsubmit="return false">
-                            <div class="form-group">
-                                <input id="numero_busca" type="text" maxlength="5" class="form-search form-control" placeholder="{% trans %}Número{% endtrans %}" />
-                            </div>
-                            <button id="btn-consultar" class="btn btn-primary" onclick="SGA.Atendimento.consultar()">
-                                {% trans %}Consultar{% endtrans %}
-                            </button>
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" placeholder="Buscar por uma senha" aria-label="Buscar por uma senha" aria-describedby="button-addon2" id="numero_busca" type="text" maxlength="5">
+                            <button id="btn-consultar" class="btn btn-outline-primary" type="button" id="button-addon2" onclick="SGA.Atendimento.consultar()">Consultar</button>
+                        </div>
                         </form>
                         <div class="result">
                             <table id="result_table" class="table">
@@ -333,8 +363,8 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                         <h4 class="modal-title">{% trans %}Senha|Bilhete{% endtrans %}</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="field">
@@ -357,6 +387,9 @@
                             <h4>{% trans %}Tempo de espera{% endtrans %}</h4>
                             <p class="espera"></p>
                         </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-block btn-success" id="chamarSenhaInfo"><i class="fa-solid fa-bullhorn"></i> Chamar Senha</button>
                     </div>
                 </div>
             </div>

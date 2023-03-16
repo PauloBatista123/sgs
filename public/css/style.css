@@ -2,6 +2,7 @@
  * Novo SGA - Main Style
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
+ @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;1,400&display=swap');
 
 @font-face {
     font-family: "Ubuntu";
@@ -30,6 +31,10 @@
 @font-face {
     font-family: "UbuntuMono";
     src: url('../fonts/UbuntuMono-R.ttf');
+}
+
+* {
+    font-size: 14px;
 }
 
 .chromeframe {
@@ -61,16 +66,34 @@
     display: block;
 }
 
+.navbar-sga {
+    background-color: white;
+    border-bottom: #999;
+    border-bottom: 1px solid #9795954f;
+    box-shadow: rgba(33, 35, 38, 0.1) 0px 10px 10px -10px;
+    font-size: 1.6rem;
+    color: #00333f;
+}
+
+.navbar-sga li a {
+    color: #00333f;
+}
+
 /* navbar */
 .navbar-header {
     padding: 5px 0 0 5px;
 }
 
-.navbar-header .navbar-brand {
+.navbar-brand {
+    border-right: 1px solid #00333f79;
+    padding-right: 1rem;
+}
+
+.container-fluid .navbar-brand {
     width: 110px;
     height: 40px;
     margin: 0 10px 0 0;
-    background-image: url(../images/novosga-navbar.png);
+    background-image: url(../images/sidebar-logo.png);
     background-repeat: no-repeat;
     background-position: 5px center;
     text-indent: -999px;
@@ -80,8 +103,16 @@
 body {
     color: #333;
     font-size: 14px;
-    font-family: Ubuntu, Helvetica, Arial, sans-serif;
+    font-family: 'Roboto', Helvetica, Arial, sans-serif;
     line-height: 20px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-image: url(../images/bgBody.jpg);
+}
+
+.container {
+    max-width: 100% !important;
+    width: 100%;
 }
 
 /* home */
@@ -115,35 +146,46 @@ body {
 }
 
 #home #modules .list {
-    padding-bottom: 10px;
-    clear: both;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    justify-content: center;
+    gap: 2rem;
 }
 
-#home #modules ul {
+#home #modules {
     margin: 0;
 }
 
-#home #modules ul li {
-    width: 100px;
-    height: 100px;
-    margin: 10px;
-    text-align: center;
-    list-style: none;
-    float: left;
-}
-
-#home #modules ul li a {
+#home #modules .list a {
     width: 100%;
-    float: left;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: #00333f;
+    font-weight: 500;
+    transition: all 0.2s;
+    text-align: center;
 }
 
-#home #modules ul li a img {
+#home #modules .list a:hover {
+    filter: brightness(0.7);
+    color: #048aa8;
+}
+
+#home #modules .list .card {
+    border: 1px solid rgba(0, 51, 63, 0.396);
+    box-shadow: rgba(0, 51, 63, 0.35) 0px 5px 15px;
+}
+
+#home #modules a img {
     width: 48px;
     height: 48px;
     border: 0;
 }
 
-#home #modules ul li a span {
+#home #modules a span {
     display: block;
 }
 
@@ -155,13 +197,19 @@ body {
 #error-page h2 { padding: 30px 0 15px 0; }
 
 #footer {
-    clear: both;
-    padding: 40px;
+    padding: 2rem;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
-#footer p {
-    color: #ccc;
-    text-align: right;
+#footer span {
+    color: #c0bebe;
+    text-align: center;
 }
 
 /* internal clock */
@@ -170,7 +218,7 @@ body {
     right: 15px;
     padding: 10px 15px;    
     position: fixed;
-    background: #333;
+    background: #003641;
     border-radius: 5px;
 }
 
@@ -199,7 +247,8 @@ body {
 .module-content .header {
     margin-bottom: 10px;
     padding: 10px 0;
-    border-bottom: 1px solid #CCC;
+    border-bottom: 1px solid #ccccccb6;
+    width: 100%;
 }
 
 .module-content .header h2 {
@@ -208,8 +257,6 @@ body {
 }
 
 .module-content .header img {
-    width: 48px;
-    height: 48px;
     margin: 5px 15px 0 5px;
     float: left;
 }

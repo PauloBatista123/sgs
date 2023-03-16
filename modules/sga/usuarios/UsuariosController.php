@@ -9,6 +9,7 @@ use Novosga\Http\JsonResponse;
 use Novosga\Model\SequencialModel;
 use Novosga\Model\Usuario;
 use Novosga\Controller\CrudController;
+use Symfony\Component\Console\Helper\Dumper;
 
 /**
  * UsuariosController.
@@ -30,34 +31,38 @@ class UsuariosController extends CrudController
     public function edit(Context $context, $id = 0)
     {
         parent::edit($context, $id);
+
         // lotacoes do usuario
-        $query = $this->em()->createQuery("SELECT e FROM Novosga\Model\Lotacao e JOIN e.cargo c JOIN e.grupo g WHERE e.usuario = :usuario ORDER BY g.left DESC");
-        $query->setParameter('usuario', $this->model->getId());
-        $rs = $query->getResult();
-        $items = array();
+        $queryLotacao = $this->em()->createQuery("SELECT e FROM Novosga\Model\Lotacao e JOIN e.cargo c JOIN e.grupo g WHERE e.usuario = :usuario ORDER BY g.left DESC");
+        $queryLotacao->setParameter('usuario', $this->model->getId());
+        $rs = $queryLotacao->getResult();
+
+        
+        $lotacoes = array();
         foreach ($rs as $lotacao) {
-            $items[] = array(
+            $lotacoes[] = array(
                 'grupo_id' => $lotacao->getGrupo()->getId(),
                 'grupo' => $lotacao->getGrupo()->getNome(),
                 'cargo_id' => $lotacao->getCargo()->getId(),
                 'cargo' => $lotacao->getCargo()->getNome(),
             );
         }
-        $this->app()->view()->set('lotacoes', $items);
+        $this->app()->view()->set('lotacoes', $lotacoes);
         // servicos do usuario
         $query = $this->em()->createQuery("SELECT e FROM Novosga\Model\ServicoUsuario e WHERE e.usuario = :usuario");
         $query->setParameter('usuario', $this->model->getId());
-        $rs = $query->getResult();
-        $items = array();
+        $rs = $query->getResult();       
+
+        $servicos = array();
         foreach ($rs as $servico) {
-            $items[] = array(
+            $servicos[] = array(
                 'unidade_id' => $servico->getUnidade()->getId(),
                 'unidade' => $servico->getUnidade()->getNome(),
                 'servico_id' => $servico->getServico()->getId(),
                 'servico' => $servico->getServico()->getNome(),
             );
         }
-        $this->app()->view()->set('servicos', $items);
+        $this->app()->view()->set('servicos', $servicos);
         // unidades
         $query = $this->em()->createQuery("SELECT e FROM Novosga\Model\Unidade e ORDER BY e.nome");
         $this->app()->view()->set('unidades', $query->getResult());
@@ -102,12 +107,13 @@ class UsuariosController extends CrudController
 
     protected function postSave(Context $context, SequencialModel $model)
     {
+        
         // lotacoes - atualizando permissoes do cargo
         $this->em()
-                ->createQuery("DELETE FROM Novosga\Model\Lotacao e WHERE e.usuario = :usuario")
-                ->setParameter('usuario', $model->getId())
-                ->execute()
-        ;
+        ->createQuery("DELETE FROM Novosga\Model\Lotacao e WHERE e.usuario = :usuario")
+        ->setParameter('usuario', $model->getId())
+        ->execute();
+
         $lotacoes = $context->request()->post('lotacoes', array());
         if (!empty($lotacoes)) {
             foreach ($lotacoes as $item) {
@@ -124,8 +130,8 @@ class UsuariosController extends CrudController
         $this->em()
                 ->createQuery("DELETE FROM Novosga\Model\ServicoUsuario e WHERE e.usuario = :usuario")
                 ->setParameter('usuario', $model->getId())
-                ->execute()
-        ;
+                ->execute();
+                
         $servicos = $context->request()->post('servicos', array());
         if (!empty($servicos)) {
             foreach ($servicos as $servico) {

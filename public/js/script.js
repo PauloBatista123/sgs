@@ -21,7 +21,7 @@ var SGA = {
             }
             prop = prop || {};
             prop.title = prop.title || target.prop('title');
-            target.modal();
+            target.modal('show');
             if (typeof(prop.create) === 'function') {
                 prop.create();
             }
@@ -49,7 +49,23 @@ var SGA = {
             id: 'dialog-error',
             title: '',
             create: function(prop) {
-                var node = $('<div id="' + SGA.dialogs.error.id + '" class="modal fade" role="dialog" aria-hidden="true"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title">'+SGA.dialogs.error.title+'</h4></div> <div class="modal-body"><p><span class="glyphicon glyphicon-warning-sign"></span> '+ prop.message +'</p></div><div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button></div></div></div></div>');
+                var node = $(`
+                <div id="${SGA.dialogs.error.id}" class="modal fade" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">${SGA.dialogs.error.title}</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p><span class="glyphicon glyphicon-warning-sign"></span>${prop.message}</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>`);
                 $('body').append(node);
                 SGA.dialogs.modal(node, {
                     close: function() {
@@ -80,7 +96,7 @@ var SGA = {
     },
         
     reload: function() {
-        window.location = window.location;
+        window.location = window.location.reload();
     },
             
     secToTime: function(seconds) {
@@ -279,13 +295,20 @@ var SGA = {
         },
         
         confirm: function(message, success, failure) {
-            var r = window.confirm(message);
-            if (r && typeof(success) == 'function') {
-                success();
-            }
-            else if (!r && typeof(failure) == 'function') {
-                failure();
-            }
+            Swal.fire({
+                icon: 'warning',
+                title: message,
+                showCancelButton: true,
+                confirmButtonText: 'Confirmar',
+                cancelButtonText: `Cancelar`,
+              }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    success();
+                } else if (result.isDenied) {
+                    failure();
+                }
+              });
         },
         
         loginValue: function(input) {
@@ -323,7 +346,7 @@ var SGA = {
                 data: { unidade: $('#unidade').val() },
                 type: 'post',
                 success: function(response) {
-                    SGA.reload();
+                    window.location.reload();
                 }
             });
         }
@@ -590,13 +613,13 @@ var SGA = {
                     if (response.success) {
                         SGA.Perfil.clear();
                         $('#dialog-message').html(SGA.Perfil.labelSenhaAlterada)
-                                .removeClass('alert-error')
+                                .removeClass('alert-danger')
                                 .addClass('alert-success')
                                 .show();
                     } else {
                         $('#dialog-message').html(response.message)
                                 .removeClass('alert-success')
-                                .addClass('alert-error')
+                                .addClass('alert-danger')
                                 .show();
                     }
                 },

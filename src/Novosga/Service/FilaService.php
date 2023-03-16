@@ -67,7 +67,7 @@ class FilaService extends ModelService
                 $rs = $this->atendimentosUsuario($usuario, $ids, $maxResults);
             }
         }
-
+        
         return $rs;
     }
 
@@ -133,12 +133,13 @@ class FilaService extends ModelService
     {
         return $this->em
             ->createQueryBuilder()
-            ->select('e')
+            ->select(array('e', 'ur', 'p'))
             ->from('Novosga\Model\Atendimento', 'e')
             ->join('e.prioridade', 'p')
             ->join('e.servicoUnidade', 'su')
             ->join('su.servico', 's')
             ->join('e.usuarioTriagem', 'ut')
+            ->leftJoin('e.usuarioReference', 'ur')
             ->leftJoin('e.usuario', 'u')
         ;
     }

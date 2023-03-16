@@ -398,12 +398,13 @@ class AtendimentoService extends MetaModelService
      * @param int|Prioridade $prioridade
      * @param string         $nomeCliente
      * @param string         $documentoCliente
+     * @param int|null|Usuario    $usuarioReference
      *
      * @return Atendimento
      *
      * @throws Exception
      */
-    public function distribuiSenha($unidade, $usuario, $servico, $prioridade, $nomeCliente, $documentoCliente)
+    public function distribuiSenha($unidade, $usuario, $servico, $prioridade, $nomeCliente, $documentoCliente, $usuarioReference)
     {
         // verificando a unidade
         if (!($unidade instanceof Unidade)) {
@@ -438,6 +439,17 @@ class AtendimentoService extends MetaModelService
             throw new Exception(_('Prioridade inválida'));
         }
 
+        // verificando a usuario referencia
+        if($usuarioReference){
+            if (!($usuarioReference instanceof Usuario)) {
+                $usuarioReference = $this->em->find("Novosga\Model\Usuario", (int) $usuarioReference);
+            }
+            if (!$usuarioReference) {
+                throw new Exception(_('Usuário preferencia inválido '.$usuarioReference.' usuário'));
+            }
+        }
+        
+
         // verificando se o servico esta disponivel na unidade
         $service = new ServicoService($this->em);
         $su = $service->servicoUnidade($unidade, $servico);
@@ -466,6 +478,10 @@ class AtendimentoService extends MetaModelService
         $atendimento->setNomeCliente($nomeCliente);
         $atendimento->setDocumentoCliente($documentoCliente);
         $atendimento->setSiglaSenha($su->getSigla());
+
+        if($usuarioReference){
+            $atendimento->setUsuarioReference($usuarioReference);
+        }
 
         AppConfig::getInstance()->hook('attending.pre-create', array($atendimento));
 

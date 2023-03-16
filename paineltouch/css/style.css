@@ -1,0 +1,294 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;1,400&display=swap');
+
+html, body { 
+    overflow: hidden;
+    font-family: 'Roboto', sans-serif;
+}
+
+html, body, #layout {
+    width: 100%;
+    height: 100%;
+}
+
+#layout {
+    top: 0;
+    left: 0;
+    background-image: url('../images/bgBody.jpg');
+    position: fixed;
+}
+
+/* menu */
+#menu {
+    top: 10px;
+    right: 10px;
+    height: 50px;
+    padding: 0;
+    margin: 0;
+    background: #000;
+    position: fixed;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    box-shadow: 1px 1px 5px #333;
+    
+    z-index: 99999;
+}
+
+#menu ul {
+    padding: 0;
+    margin: 0;
+}
+
+#menu li {
+    list-style: none;
+    float: left;
+}
+
+#menu li a {
+    color: #aaa;
+    padding: 0 15px;
+    line-height: 50px;
+    text-decoration: none;
+    float: left;
+}
+
+#menu li a:hover { color: #fff; }
+
+.page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#gerentes{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.page-gerentes {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.page.first {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.page button {
+    background-color: #00a091;
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 3rem;
+    border-bottom: 15px solid #003641;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 20px;
+}
+
+.page button:hover {
+    color: #b9b2b2
+}
+
+.page-buttons {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    padding: 2em;
+}
+
+#header, #header * {
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#header h1 {
+    font-weight: bold;
+    text-align: center;
+    color: #22ac9f;
+    margin-top: 3rem;
+    text-transform: uppercase;
+}
+
+#header span {
+    text-align: center;
+    margin-top: 1rem;
+    color: #003641;
+    font-weight: 700;
+    font-size: 3rem;
+    text-transform: uppercase;
+}
+
+.touch-control button .icon { float: right; }
+.touch-control button .icon.icon-left { float: left; }
+
+@media only screen and (max-width: 800px) {
+    
+    #header {
+        padding: 5px;
+    }
+    
+    #header h1 {
+        font-size: 18px;
+    }
+    
+    #header p {
+        font-size: 12px;
+    }
+    
+    .touch-control  {
+        padding: 5px;
+    }
+
+    .touch-control  button {
+        padding: 10px;
+    }
+
+}
+
+@media only screen and (max-width: 1024px) and (min-width: 801px) {
+    
+    #header {
+        padding: 10px;
+    }
+    
+    #header h1 {
+        font-size: 20px;
+    }
+    
+    #header p {
+        font-size: 14px;
+    }
+    
+    .touch-control  {
+        padding: 10px;
+    }
+
+    .touch-control  button {
+        padding: 20px;
+    }
+
+}
+
+@media only screen and (max-width: 1280px) and (min-width: 1025px)  {
+    
+    #header {
+        padding: 20px;
+    }
+    
+    #header h1 {
+        font-size: 28px;
+    }
+    
+    #header p {
+        font-size: 14px;
+    }
+    
+    .touch-control  {
+        padding: 10px 0px;
+    }
+
+    .touch-control  button {
+        padding: 30px;
+    }
+
+}
+
+@media only screen and (min-width: 1281px)  {
+
+    #header {
+        padding: 20px;
+    }
+    
+    #header h1 {
+        font-size: 28px;
+    }
+    
+    #header p {
+        font-size: 14px;
+    }
+    
+    .touch-control  {
+        padding: 10px 0px;
+    }
+
+    .touch-control  button {
+        padding: 30px;
+    }
+
+}
+
+.tab-pane { padding: 20px 0; }
+
+.ticket {
+    width: 50%;
+    background: #003641;
+    margin: 0 auto;
+    color: #fff;
+    padding: 2vw;
+    text-align: center;
+    border-radius: 8px;
+}
+
+.ticket .ticket-header {
+    font-size: 2vw;
+}
+
+.ticket .ticket-body {
+    font-weight: bold;
+    font-size: 10vw;
+}
+
+.ticket .ticket-footer {
+    font-size: 2vw;
+}
+
+.inputCooperado {
+    display: block;
+    border: '2px solid #003641';
+    background-color: transparent;
+    font-size: 5rem;
+    padding: 2rem 3rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+    color: #003641;
+    text-align: center;
+    font-weight: 600;
+
+    outline-color: #22ac9f;
+    outline-width: 6px;
+}
+
+.identificador {
+    display: flex;
+    flex-direction: column;
+}
+
+.identificador p {
+    font-size: 2rem;
+    color: #003641;
+}
+
+.buscarCooperadoErro {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 3rem 0rem;
+}
+
+.buscarCooperadoErro p {
+    color: #5e0101;
+    font-size: 3rem;
+}

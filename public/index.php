@@ -1,6 +1,7 @@
 <?php
 require_once  '../bootstrap.php';
 
+
 $app = Novosga\App::create();
 $app->prepare();
 

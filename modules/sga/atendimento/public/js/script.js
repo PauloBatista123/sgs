@@ -2,6 +2,7 @@
  * Novo SGA - Atendimento
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
+
 var SGA = SGA || {};
 
 SGA.Atendimento = {
@@ -37,12 +38,13 @@ SGA.Atendimento = {
                     response.data = response.data || {};
                     var atendimentos = response.data.atendimentos || [],
                             usuario = response.data.usuario || {};
-                    var list = $("#fila ul");
+                    var list = $("#lista-fila");
                     // habilitando botao chamar
                     if (atendimentos.length > 0) {
+                        $('#chamar .chamar').show();
                         $('#chamar .chamar').prop('disabled', false);
                         // se a fila estava vazia e chegou um novo atendimento, entao toca o som
-                        if (list.find('li.empty').length > 0) {
+                        if (list.find('div.empty').length > 0) {
                             document.getElementById("alert").play();
                             SGA.Notification.show('Atendimento', 'Novo atendimento na fila');
                         }
@@ -52,19 +54,34 @@ SGA.Atendimento = {
                         document.body.focus();
                         for (var i = 0; i < atendimentos.length; i++) {
                             var atendimento = atendimentos[i];
-                            var cssClass = atendimento.prioridade ? 'prioridade' : '';
+                            var cliente = atendimentos[i].cliente.nome.split(' ') ?? 'Sem identificação';
+                            var strCliente =  cliente != '' ? `${cliente[0]} ${cliente[1]}` : 'Sem identificação';
+                            var cssClass = atendimento.prioridade > 1 ? 'prioridade' : '';
+                            //defini o usuário de preferencia
+                            var usuarioPreferencia = 'usuario_preference' in atendimento ? atendimento.usuario_preference.nome : 'Não possui';
                             if (i == 0) {
                                 cssClass += ' proximo';
                             }
                             var onclick = 'SGA.Atendimento.infoSenha(' + atendimento.id + ')';
                             var title = atendimento.servico + ' (' + atendimento.espera + ')';
-                            var item = '<li><a class="' + cssClass + '" href="javascript:void(0)" onclick="' + onclick + '" title="' + title + '">' + atendimento.senha + '</a></li>';
+                            var item = `<div class="col-lg-3 col-md-3 col-3 lista-item ${cssClass}">
+                            <a class="${cssClass}" href="javascript:void(0)" onclick="${onclick}" title="${title}">
+                                <span class="senha">
+                                    ${atendimento.senha} - ${strCliente}
+                                </span>
+                                <span class="subtitle">Usuário Preferencial:</span><span class="title" id="iconUsuarioPreferencial">${usuarioPreferencia}</span>
+                                <span class="subtitle">Prioridade:</span><span class="title" id="iconPrioridade">${atendimento.nomePrioridade}</span> 
+                                <span class="subtitle">Serviço:</span><span class="title" id="iconServico">${atendimento.servico}</span> 
+                                </span><div class="tempoEspera"><span class="subtitle">Tempo de Espera:</span><span class="title" id="iconTempoEspera">${atendimento.espera}</span></div>
+                            </a>
+                            </div>`;
+
                             list.append(item);
                         }
                         document.title = "(" + atendimentos.length + ") " + SGA.Atendimento.defaultTitle;
                     } else {
-                        $('#chamar .chamar').prop('disabled', true);
-                        list.append('<li class="empty">' + SGA.Atendimento.filaVazia + '</li>')
+                        $('#chamar .chamar').hide();
+                        list.append('<div class="empty">' + SGA.Atendimento.filaVazia + '</div>')
                         document.title = SGA.Atendimento.defaultTitle;
                     }
                     if (usuario.numeroLocal) {
@@ -153,18 +170,43 @@ SGA.Atendimento = {
         SGA.Atendimento.control({
             button: btn,
             enableDelay: 5000,
-            action: 'chamar', 
+            action: 'chamar',
             success: function(response) {
                 // remove o proximo da lista se for o mesmo do atendimento
-                var proximo = $("#fila ul li:first");
+                var proximo = $("#lista-fila:first");
                 if (response.data.senha == proximo.text()) {
                     proximo.remove();
-                    if ($("#fila ul li").length == 0) {
+                    if ($("#lista-fila").length == 0) {
                         // fila vazia
-                        $("#fila ul").append('<li class="empty">' + SGA.Atendimento.filaVazia + '</li>')
+                        $("#lista-fila").append('<div class="empty">' + SGA.Atendimento.filaVazia + '</div>')
                     } else {
                         // novo proximo
-                        $("#fila ul li:first a").addClass('proximo'); 
+                        $("#lista-fila:first a").addClass('proximo'); 
+                    }
+                }
+                SGA.Atendimento.updateControls(2, response.data);
+            }
+        });
+    },
+
+    chamar_personalizado: function(id) {
+        SGA.ajax({
+            url: SGA.url('chamarPersonalizado'),
+            data: {
+                id: id
+            },
+            type: 'post',
+            success: function(response) {
+                // remove o proximo da lista se for o mesmo do atendimento
+                var proximo = $("#lista-fila:first");
+                if (response.data.senha == proximo.text()) {
+                    proximo.remove();
+                    if ($("#lista-fila").length == 0) {
+                        // fila vazia
+                        $("#lista-fila").append('<div class="empty">' + SGA.Atendimento.filaVazia + '</div>')
+                    } else {
+                        // novo proximo
+                        $("#lista-fila:first a").addClass('proximo'); 
                     }
                 }
                 SGA.Atendimento.updateControls(2, response.data);
@@ -186,20 +228,33 @@ SGA.Atendimento = {
             action: 'iniciar', 
             success: function(response) {
                 SGA.Atendimento.updateControls(3, response.data)
+                $('#dataInicio').text(`Emissão da Senha: ${response.data.inicio}`);
+                $('#dataChegada').text(`Data Chegada: ${response.data.chegada}`);
             }
         });
     },
     
     nao_compareceu: function(btn) {
-        if (window.confirm(SGA.Atendimento.marcarNaoCompareceu)) {
-            SGA.Atendimento.control({
-                button: btn,
-                action: 'nao_compareceu', 
-                success: function(response) {
-                    SGA.Atendimento.updateControls(1, response.data)
-                }
-            });
-        }
+        Swal.fire({
+            title: 'Desjea continuar?',
+            text: SGA.Atendimento.marcarNaoCompareceu,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#003641',
+            cancelButtonColor: '#49479D',
+            confirmButtonText: 'Confirmar',
+            cancelButtonText: 'Cancelar'
+          }).then((result) => {
+            if (result.isConfirmed) {
+                SGA.Atendimento.control({
+                    button: btn,
+                    action: 'nao_compareceu', 
+                    success: function(response) {
+                        SGA.Atendimento.updateControls(1, response.data)
+                    }
+                });
+            }
+          });
     },
     
     encerrar: function(btn) {
@@ -278,6 +333,7 @@ SGA.Atendimento = {
                     dialog.find('.servico').text(a.servico);
                     dialog.find('.chegada').text(SGA.formatDate(a.chegada));
                     dialog.find('.espera').text(a.espera);
+                    dialog.find('#chamarSenhaInfo').attr("onclick", `SGA.Atendimento.chamar_personalizado(${a.id})`);
                     SGA.dialogs.modal(dialog);
                 }
             }
@@ -307,7 +363,7 @@ SGA.Atendimento = {
     
     addServico: function(item) {
         item = $(item);
-        $("#servicos-realizados").append('<li><a href="javascript:void(0)" onclick="SGA.Atendimento.delServico(this)" title="' + SGA.Atendimento.remover + '"><input type="hidden" class="servicos" value="' + item.data('id') + '" />' + item.text() + '</a></li>');
+        $("#servicos-realizados").append('<li class="servico"><a href="javascript:void(0)" onclick="SGA.Atendimento.delServico(this)" title="' + SGA.Atendimento.remover + '"><input type="hidden" class="servicos" value="' + item.data('id') + '" />' + item.text() + '</a></li>');
         $(item).parent().hide();
     },
     

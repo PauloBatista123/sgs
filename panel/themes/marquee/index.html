@@ -1,0 +1,65 @@
+        
+<div id="layout-content">
+    <div id="senha-container">
+        <div class="left">
+            <div id="mensagem">
+                <span>{{ ultima.mensagem }}</span>
+            </div>
+            <div id="senha" class="blink">
+                <span>{{ ultima.texto }}</span>
+            </div>
+            <div class="senha-local">
+                <div id="local" class="local">
+                    <span>{{ ultima.local }}</span>
+                </div>
+                <div id="local-numero" class="numero-local">
+                    <span>{{ ultima.numeroLocal }}</span>
+                </div>
+            </div>
+            <div id="marquee">
+                <p></p>
+            </div>
+        </div>
+        <div class="right">
+            <div id="historico">
+                <div class="rss">
+                    <div class="noticias {{ senha.styleClass }}" ng-repeat="senha in historico">
+                        <div class="rss">
+                           
+<!-- start feedwind code --><iframe height="400" width="400" src="http://feed.mikle.com/widget/?rssmikle_url=https%3A%2F%2Fnews.google.com.br%2F%7Chttp%3A%2F%2Fg1.globo.com%2Fdynamo%2Fbrasil%2Frss2.xml&rssmikle_frame_width=400&rssmikle_frame_height=400&frame_height_by_article=0&rssmikle_target=_top&rssmikle_font=Arial%2C%20Helvetica%2C%20sans-serif&rssmikle_font_size=18&rssmikle_border=off&responsive=off&text_align=right&text_align2=left&corner=on&scrollbar=on&autoscroll=on&scrolldirection=up&scrollstep=8&mcspeed=20&sort=New&rssmikle_title=on&rssmikle_title_sentence=Noticias&rssmikle_title_bgcolor=%23FFFEFC&rssmikle_title_color=%23050505&rssmikle_item_bgcolor=%23FFFFFF&rssmikle_item_title_length=55&rssmikle_item_title_color=%23FEFFF7&rssmikle_item_border_bottom=off&rssmikle_item_description=on&item_link=off&rssmikle_item_description_length=150&rssmikle_item_description_color=%23666666&rssmikle_item_date=gl1&rssmikle_timezone=Etc%2FGMT&datetime_format=%25e.%25m.%25Y%20%25k%3A%25M&item_description_style=text%2Btn&item_thumbnail=crop&item_thumbnail_selection=auto&article_num=100&rssmikle_item_podcast=off&" scrolling="no" name="rssmikle_frame" marginwidth="0" marginheight="0" vspace="0" hspace="0" frameborder="0"></iframe><div style="font-size:10px; text-align:center; width:400px;"><a href="http://feed.mikle.com/" target="_blank" style="color:#CCCCCC;"></a><!--Please display the above link in your web page according to Terms of Service.--></div><!-- end feedwind code --><!-- end feedwind code -->
+
+                        </div>
+                        <div class="local">
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+<div class="right">
+            <div id="historico2">
+                      
+                <div class="senhas">
+
+                    <div class="senha-chamada {{ senha.styleClass }}" ng-repeat="senha in historico">
+
+                        <div class="senha">
+                         <div class="recentes"> <h1>Senhas Recentes: </h1>  </div>
+                           <div id="senhas_recentes">
+                           <h1>  </h1> 
+                           </div>
+                         <span> {{ senha.texto }}</span>
+
+                        </div>
+                        <div class="local">
+                            <span>{{ senha.local }} : {{ senha.numeroLocal }} </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

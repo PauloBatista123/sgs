@@ -90,6 +90,7 @@ abstract class CrudController extends ModuleController
         $id = (int) $id;
         if ($id > 0) { // editando
             $this->model = $this->findById($id);
+            
             // invalid id
             if (!$this->model) {
                 if ($context->getModulo()) {
@@ -101,6 +102,8 @@ abstract class CrudController extends ModuleController
         } else {
             $this->model = $this->createModel();
         }
+
+        
         if ($context->request()->isPost()) {
             $redirUrl = $_SERVER['HTTP_REFERER'];
             $message = array('success' => true, 'text' => '');

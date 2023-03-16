@@ -9,9 +9,9 @@
     <td>{{ item.nome }}</td>
     <td>
         {% if item.status %}
-        <span class="status-active">{% trans %}Ativo{% endtrans %}</span>
+        <span class="badge bg-success">{% trans %}Ativo{% endtrans %}</span>
         {% else %}
-        <span class="status-inactive">{% trans %}Inativo{% endtrans %}</span>
+        <span class="badge bg-danger">{% trans %}Inativo{% endtrans %}</span>
         {% endif %}
     </td>
 {% endblock %}

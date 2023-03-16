@@ -1,0 +1,43 @@
+<div id="layout-content">
+	<iframe width="1232" height="795" src="https://www.youtube.com/embed?listType=playlist&list=PL6iWLCmUjCwuoJl4X99unVU5E43vW0rg7&hl=pt&cc_lang_pref=pt&cc_load_policy=0&fs=0&mute=1&controls=0&autoplay=1&loop=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+	
+	<div id="barra-lateral">
+		<div id="senha-container"> 
+			<div id="mensagem">
+				<span>{{ ultima.mensagem }}</span>
+			</div>
+			<div class="row">
+				<div>
+					<div id="senha" class="blink">
+						<span>{{ ultima.texto }}</span>
+					</div>
+				</div>
+				<div>
+					<div id="local" class="local">
+						<span>{{ ultima.local }}</span>
+					</div>
+					<div id="local-numero" class="numero-local">
+						<span>{{ ultima.numeroLocal }}</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="separador"></div>
+		<div id="relogio-container">
+			<iframe id="relogio" src="themes/youtube/relogio.html" frameborder="0"></iframe>
+		</div>
+	</div>
+	
+    <div id="historico">
+        <div class="senhas">
+            <div class="col-sm-3 senha-chamada {{ senha.styleClass }}" ng-repeat="senha in historico | limitTo: 4">
+                <div class="senha">
+                    <span>{{ senha.texto }}</span>
+                </div>
+                <div class="local">
+                    <span>{{ senha.local }}: {{ senha.numeroLocal }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

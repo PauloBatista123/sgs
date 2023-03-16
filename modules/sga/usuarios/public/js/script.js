@@ -24,14 +24,22 @@ SGA.Usuarios = {
     },
     
     multiDelete: function(btn, selClass, ondelete) {
-        if (confirm(SGA.Usuarios.multiDeleteLabel)) {
-            $('.' + selClass + ':checked').each(function(i, e) {
-                var row = $(e).parent().parent();
-                row.remove();
-                ondelete(row);
-            });
-            SGA.Usuarios.multiCheck(selClass, btn);
-        }
+        Swal.fire({
+            icon: 'warning',
+            title: SGA.Usuarios.multiDeleteLabel,
+            showCancelButton: true,
+            confirmButtonText: 'Confirmar',
+            cancelButtonText: `Cancelar`,
+          }).then((result) => {
+            if (result.isConfirmed) {
+                $('.' + selClass + ':checked').each(function(i, e) {
+                    var row = $(e).parent().parent();
+                    row.remove();
+                    ondelete(row);
+                });
+                SGA.Usuarios.multiCheck(selClass, btn);
+            }
+          });
         return false;
     },
             
@@ -71,6 +79,12 @@ SGA.Usuarios = {
             $('#lotacoes tbody').append(row);
             grupo.find('option:selected').remove();
             $('#dialog-add-lotacao').modal('hide');
+        }else{
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Você precisa informar todos os dados!',
+            })
         }
     },
     
@@ -163,6 +177,7 @@ SGA.Usuarios = {
     dialogSenha: function(label) {
         var buttons = {};
         buttons[label] = SGA.Usuarios.alterarSenha;
+
         SGA.dialogs.modal('#dialog-senha', {
             width: 500,
             buttons: buttons

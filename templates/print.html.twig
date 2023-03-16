@@ -10,10 +10,21 @@
 </head>
 <body onload="window.print()">
     <div id="senha">
+        <div id="logo">
+            <img src="{{baseUrl()}}/images/logoAracoop.png" alt="qrcode" width="120"/>
+        </div>
+        <b>----------------------------------------------------------------</b>
         <div id="senha-header">
             {{ atendimento.unidade.nome }}<br />
-            <span class="data">{{ now|date('d/m/Y H:i') }}</span>
         </div>
+        {% if atendimento.usuarioReference %}
+        <b>----------------------------------------------------------------</b>
+        <div id="senha-gerente">
+            <span>Gerente</span>
+            {{ atendimento.usuarioReference }}<br />
+        </div>
+        {% endif %}
+        <b>----------------------------------------------------------------</b>
         <div id="senha-body">
             {{ atendimento.senha }}
             <span class="descricao">
@@ -21,8 +32,18 @@
             </span>
         </div>
         <div id="senha-footer">
-            {{ atendimento.unidade.mensagemImpressao }}
+            {{ atendimento.nomeCliente }}
         </div>
+        <b>----------------------------------------------------------------</b>
+        <div id="">
+            <span>Avalie nosso atendimento</span>
+        </div>
+        <div id="qrcode">
+            <img src="{{baseUrl()}}/images/qrcode.png" alt="qrcode" width="100"/>
+        </div>
+        <b>----------------------------------------------------------------</b>
+        <span class="data">{{ now|date('d/m/Y H:i') }}</span>
     </div>
+    
 </body>
 </html>

@@ -1,0 +1,326 @@
+/** 
+ * Marquee layout - Painel Web
+ * @author Rogerio Lino <rogeriolino@gmail.com>
+ */
+#layout, #layout * { 
+    padding: 0;
+    margin: 0;
+    line-height: 1;
+}
+
+#layout-content, #senha-container { height: 100%; }
+
+#layout .top {
+    height: 15%;
+}
+
+#layout .left {
+    width: 70%;
+    height: 100%; 
+    float: left;
+}
+
+#layout .right { 
+    width: 29%; 
+    float: right;
+}
+
+#layout .right .local { line-height: 1; }
+#layout .right .numero-local { line-height: 1; }
+
+/* 
+ * Senha Atual - Ultima senha chamada
+ */
+#mensagem {
+    text-align: center;
+}
+
+#mensagem span {
+    padding: 10px 29px;
+    display: inline-block;
+}
+
+#senha {
+    font-weight: bold;
+    text-align: center;
+}
+
+/* local */
+
+#local {
+    margin: 0 auto;
+    padding-right: 30px;
+    display: inline-block;
+}
+
+#local-numero {    
+    font-weight: bold;
+    margin: 0 auto;
+    display: inline-block;
+}
+
+.left .senha-local {
+    text-align: center;
+}
+
+.right {
+    height: 100%;
+    position: fixed;
+    top: 0;
+    right: 0;
+}
+
+/*
+ * Ultimas senhas chamadas
+ */
+#historico {
+    margin-top:5px;
+    margin-left:10px;
+    width: 130%;
+    height: 44.6%;
+}
+
+#historico .rss {
+    height: 100%;
+    overflow: hidden;
+}
+
+#historico .rss div.noticias {
+    display: block;
+}
+
+#historico .rss div.noticias div.senha { 
+    font-weight: bold; 
+    text-align: center;
+}
+
+#historico .rss div.noticias div.local {
+    text-align: center;
+}
+
+
+
+
+
+
+
+#historico2 {
+    
+    margin-top:410px;
+    margin-left:5px;
+    width: 97%;
+    height: 40%;
+
+}
+
+#historico2 .senhas {
+    height: 100%;
+    overflow: hidden;
+}
+
+#historico2 .senhas div.senha-chamada {
+    display: block;
+}
+
+#historico2 .senhas div.senha-chamada div.senha { 
+    font-weight: bold; 
+    text-align: center;
+}
+
+#historico2 .senhas div.senha-chamada div.local {
+    text-align: center;
+}
+
+#senhas_recentes{
+
+text-align: center;
+
+}
+
+
+#marquee { 
+    bottom: 5px;
+    width: 100%;
+    overflow: hidden;
+    position: absolute;
+}
+
+#marquee p {
+    top: 0;
+    white-space: nowrap;
+    display: inline-block;
+    position: absolute;
+}
+
+/* cores - atendimento normal */
+#layout.normal { background-image:linear-gradient(to right,#f15a23,#FFBE4D); }
+#layout.normal #mensagem span { color: #ffffff; }
+#layout.normal #senha span { color: #ffffff; }
+#layout.normal #senha span {text-shadow: #999 1px 2px 5px; }
+#layout.normal #local span { color: #ffffff; }
+#layout.normal #local-numero span { color: #fff; }
+#layout.normal #historico2 .senhas { background:"transparent" ; }
+#layout.normal #historico2 .senhas * { color: #ffffff; }
+#layout.normal #historico2 .senhas * {text-shadow: #999 1px 2px 5px;  }
+#layout.normal #marquee p { color: #fff; }
+#layout.normal #marquee p {text-shadow: #999 1px 2px 5px; }
+
+/* cores - atendimento prioritario */
+#layout.prioridade { background-color: #fff; }
+#layout.prioridade #senha-container span { color: #d2322d; }
+#layout.prioridade #historico2 .senhas { background-color: "transparent"; }
+#layout.prioridade #historico2 .senhas * { color: #333; }
+
+#layout.prioridade #marquee p { color: #000; }
+
+
+/* cores - atendimento prioritario quando no historico */
+#historico2 .senhas .prioridade * { color: #d2322d !important; }
+#historico2 .senhas .prioridade * { text-shadow: #000 1px 2px 5px;  }
+/* not supported resolution */
+@media only screen and (max-width: 780px) {
+}
+@media only screen and (min-width: 1441px) {
+}
+
+/* 1440x900 */
+@media only screen and (max-width: 1440px) and (min-width: 1025px) {
+    
+    #mensagem {
+        padding: 20px 0;
+    }
+    
+    #mensagem span {
+        font-size: 5em;
+    }
+    
+    #senha {
+        padding: 30px 0 20px 0;
+    }
+        
+    #senha span {
+        font-size: 22em;
+    }
+    
+    #local span {
+        font-size: 6em;
+    }
+    
+    #local-numero span {
+        font-size: 10em;
+    }
+    
+    .senha-chamada .senha span {
+        font-size: 4em;
+    }
+    
+    .senha-chamada .local span {
+        font-size: 2em;
+    }
+    
+    #marquee {
+        padding-top: 50px !important;
+    }
+    
+    #marquee p {
+        font-size: 4em;
+    }
+    
+    #historico .senhas div.senha-chamada {
+        padding: 25px 0;
+    }
+    
+}
+
+/* 1024x768 */
+@media only screen and (max-width: 1024px) and (min-width: 801px) {
+    
+    #mensagem {
+        padding: 10px 0;
+    }
+    
+    #mensagem span {
+        font-size: 5em;
+    }
+    
+    #senha {
+        padding: 30px 0 20px 0;
+    }
+        
+    #senha span {
+        font-size: 20em;
+    }
+    
+    #local span {
+        font-size: 6em;
+    }
+    
+    #local-numero span {
+        font-size: 8em;
+    }
+    
+    .senha-chamada .senha span {
+        font-size: 6em;
+    }
+    
+    .senha-chamada .local span {
+        font-size: 2em;
+    }
+    
+    #marquee {
+        padding-top: 60px !important;
+    }
+    
+    #marquee p {
+        font-size: 3em;
+    }
+    
+    #historico .senhas div.senha-chamada {
+        padding: 30px 0;
+    }
+    
+}
+
+/* 800x600 */
+@media only screen and (max-width: 800px) {
+    
+    #mensagem {
+    }
+    
+    #mensagem span {
+        font-size: 5em;
+    }
+        
+    #senha span {
+        font-size: 14em;
+    }
+    
+    #local span {
+        font-size: 5em;
+    }
+    
+    #local-numero span {
+        font-size: 6em;
+    }
+    
+    .senha-chamada .senha span {
+        font-size: 5em;
+    }
+    
+    .senha-chamada .local span {
+        font-size: 2em;
+    }
+    
+    #marquee {
+        padding-top: 60px !important;
+    }
+    
+    #marquee p {
+        font-size: 3em;
+    }
+    
+    #historico .senhas div.senha-chamada {
+        padding: 18px 0;
+    }
+    
+}

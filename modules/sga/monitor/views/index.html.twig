@@ -1,18 +1,19 @@
 {% extends "module.html.twig" %}
 {% block moduleContent %}
 <div id="monitor">
-    <form class="form-inline" role="search" onsubmit="return false">
-        <div class="form-group">
-            <input type="text" id="buscar-senha" class="form-search form-control" placeholder="{% trans %}buscar senha{% endtrans %}" />
+    <form class="row" role="search" onsubmit="return false">
+        <div class="input-group mb-3">
+            <input type="text" id="buscar-senha" class="form-control form-control-lg" placeholder="{% trans %}Buscar senha{% endtrans %}" />
+            <button id="btn-open-consulta" class="btn btn-outline-primary" onclick="SGA.Monitor.Senha.consulta()">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                {% trans %}Consultar{% endtrans %}
+            </button>
         </div>
-        <button id="btn-open-consulta" class="btn btn-primary" onclick="SGA.Monitor.Senha.consulta()">
-            <span class="glyphicon glyphicon-search"></span>&nbsp;
-            {% trans %}Consultar{% endtrans %}
-        </button>
     </form>
+    
     {% for su in servicos %}
     <div id="servico-{{ su.servico.id }}" class="servico empty" data-id="{{ su.servico.id }}">
-        <span class="title">{{ su.sigla }} - {{ su.servico.nome }}</span>
+        <span class="title fs-3 text-secondary fw-bold m-2">{{ su.sigla }} - {{ su.servico.nome }}</span>
         <ul class="fila">
         </ul>
     </div>
@@ -24,8 +25,8 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">{% trans %}Busca{% endtrans %}</h4>
+                <h5 class="modal-title">{% trans %}Busca{% endtrans %}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form class="form-inline" role="form" onsubmit="return false">
@@ -59,58 +60,60 @@
 
 {# view #}
 <div id="dialog-view" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">{% trans %}Atendimento{% endtrans %}</h4>
+                <h5 class="modal-title">{% trans %}Atendimento{% endtrans %}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <input id="senha_id" type="hidden" />
                 <fieldset>
-                    <legend>{% trans %}Senha|Bilhete{% endtrans %}</legend>
-                    <div>
-                        <label>{% trans %}Número{% endtrans %}</label>
-                        <span id="senha_numero"></span>
+                    <legend class="text-primary fw-bold fs-4">{% trans %}Senha|Bilhete{% endtrans %}</legend>
+                    <hr>
+                    <div class="d-flex flex-column mb-2">
+                        <label class="small">{% trans %}Número{% endtrans %}</label>
+                        <span class="fw-bold fs-5" id="senha_numero"></span>
                     </div>
-                    <div>
-                        <label>{% trans %}Prioridade{% endtrans %}</label>
-                        <span id="senha_prioridade"></span>
+                    <div class="d-flex flex-column mb-2">
+                        <label class="small">{% trans %}Prioridade{% endtrans %}</label>
+                        <span class="fw-bold fs-5" id="senha_prioridade"></span>
                     </div>
-                    <div>
-                        <label>{% trans %}Serviço{% endtrans %}</label>
-                        <span id="senha_servico"></span>
+                    <div class="d-flex flex-column mb-2">
+                        <label class="small">{% trans %}Serviço{% endtrans %}</label>
+                        <span class="fw-bold fs-5" id="senha_servico"></span>
                     </div>
-                    <div>
-                        <label>{% trans %}Data chegada{% endtrans %}</label>
-                        <span id="senha_chegada"></span>
+                    <div class="d-flex flex-column mb-2">
+                        <label class="small">{% trans %}Data chegada{% endtrans %}</label>
+                        <span class="fw-bold fs-5" id="senha_chegada"></span>
                     </div>
-                    <div>
-                        <label>{% trans %}Tempo de espera{% endtrans %}</label>
-                        <span id="senha_espera"></span>
+                    <div class="d-flex flex-column mb-2">
+                        <label class="small">{% trans %}Tempo de espera{% endtrans %}</label>
+                        <span class="fw-bold fs-5" id="senha_espera"></span>
                     </div>
-                    <div>
-                        <label>{% trans %}Data início{% endtrans %}</label>
-                        <span id="senha_inicio"></span>
+                    <div class="d-flex flex-column mb-2">
+                        <label class="small">{% trans %}Data início{% endtrans %}</label>
+                        <span class="fw-bold fs-5" id="senha_inicio"></span>
                     </div>
-                    <div>
-                        <label>{% trans %}Data fim{% endtrans %}</label>
-                        <span id="senha_fim"></span>
+                    <div class="d-flex flex-column mb-2">
+                        <label class="small">{% trans %}Data fim{% endtrans %}</label>
+                        <span class="fw-bold fs-5" id="senha_fim"></span>
                     </div>
-                    <div>
-                        <label>{% trans %}Situação{% endtrans %}</label>
-                        <span id="senha_status"></span>
+                    <div class="d-flex flex-column mb-4">
+                        <label class="small">{% trans %}Situação{% endtrans %}</label>
+                        <span class="fw-bold fs-5" id="senha_status"></span>
                     </div>
                 </fieldset>
                 <fieldset>
-                    <legend>{% trans %}Cliente{% endtrans %}</legend>
-                    <div>
-                        <label>{% trans %}Nome{% endtrans %}</label>
-                        <span id="cliente_nome"></span>
+                    <legend class="text-primary fw-bold fs-4">{% trans %}Cliente{% endtrans %}</legend>
+                    <hr>
+                    <div class="d-flex flex-column mb-2">
+                        <label class="small">{% trans %}Nome{% endtrans %}</label>
+                        <span class="fw-bold fs-5" id="cliente_nome"></span>
                     </div>
-                    <div>
-                        <label>{% trans %}Documento{% endtrans %}</label>
-                        <span id="cliente_documento"></span>
+                    <div class="d-flex flex-column mb-2">
+                        <label class="small">{% trans %}Documento{% endtrans %}</label>
+                        <span class="fw-bold fs-5" id="cliente_documento"></span>
                     </div>
                 </fieldset>
             </div>

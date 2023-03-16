@@ -40,6 +40,7 @@ class AtendimentoController extends ModuleController
     {
         $usuario = $context->getUser();
         $unidade = $context->getUnidade();
+
         if (!$usuario || !$unidade) {
             $this->app()->gotoHome();
         }
@@ -68,6 +69,9 @@ class AtendimentoController extends ModuleController
         $this->app()->view()->set('tiposAtendimento', $tiposAtendimento);
         $this->app()->view()->set('local', $usuario->getLocal());
         $this->app()->view()->set('tipoAtendimento', $usuario->getTipoAtendimento());
+
+        $at = $this->atendimentoService->atendimentoAndamento($usuario->getId());
+
     }
 
     public function set_local(Context $context)
@@ -116,6 +120,82 @@ class AtendimentoController extends ModuleController
                 ),
             );
             $response->success = true;
+        }
+
+        return $response;
+    }
+
+    /**
+     * Chama senha personalizada.
+     *
+     * @param Novosga\Context $context
+     */
+
+    public function chamarPersonalizado(Context $context)
+    {
+        $response = new JsonResponse();
+
+        try {
+            
+            if (!$context->request()->isPost()) {
+                throw new Exception(_('Somente via POST'));
+            }
+            $attempts = 5;
+            $success = false;
+            $usuario = $context->getUser();
+            $id = (int) $context->request()->post('id');
+
+            if (!$usuario) {
+                throw new Exception(_('Nenhum usuário na sessão'));
+            }
+
+            // verifica se ja esta atendendo alguem
+            $atual = $this->atendimentoService->atendimentoAndamento($usuario->getId());
+            
+            // se ja existe um atendimento em andamento (chamando senha novamente)
+            if ($atual) {
+                $success = true;
+            }else{
+                $unidade = $context->getUser()->getUnidade();
+                $atendimento = $this->atendimentoService->buscaAtendimento($unidade, $id);
+                do {
+                    if ($atendimento) {
+                        $success = $this->atendimentoService->chamar($atendimento, $usuario->getWrapped(), $usuario->getLocal());
+                        if ($success) {
+                            // incrementando contadores
+                            if ($atendimento->getPrioridade()->getPeso() > 0) {
+                                $usuario->setSequenciaPrioridade($usuario->getSequenciaPrioridade() + 1);
+                            } else {
+                                $usuario->setSequenciaPrioridade(0);
+                            }
+                            $context->setUser($usuario);
+                        } else {
+                            usleep(100);
+                        }
+                        --$attempts;
+                    } else {
+                        // nao existe proximo
+                        break;
+                    }
+                } while (!$success && $attempts > 0);
+            }
+
+            // response
+            if (!$success) {
+                if (!$atendimento) {
+                    throw new Exception(_('Fila vazia'));
+                } else {
+                    throw new Exception(_('Já existe um atendimento em andamento'));
+                }
+            }
+            // response
+            $response->success = $success;
+            $this->atendimentoService->chamarSenha($unidade, $atendimento);
+            $response->data = $atendimento->jsonSerialize();
+
+        } catch (Exception $e) {
+            $response->success = false;
+            $response->message = $e->getMessage();
         }
 
         return $response;
@@ -268,6 +348,9 @@ class AtendimentoController extends ModuleController
         ");
         if ($campoData !== null) {
             $query->setParameter('data', DateUtil::nowSQL());
+            if($campoData === 'dataInicio'){
+                $atendimento->setDataInicio(new \DateTime(DateUtil::nowSQL()));
+            }
         }
         $query->setParameter('novoStatus', $novoStatus);
         $query->setParameter('id', $atendimento->getId());

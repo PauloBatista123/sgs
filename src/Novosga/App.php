@@ -15,8 +15,9 @@ use Novosga\Service\AcessoService;
  */
 class App extends \Slim\Slim
 {
-    const VERSION = '1.5.0';
+    const VERSION = '3.0.0';
     const CHARSET = 'utf-8';
+    private $uti;
 
     private $context;
     private $acessoService;
@@ -25,6 +26,7 @@ class App extends \Slim\Slim
 
     public function __construct(array $userSettings = array())
     {
+        $this->uti = _('<>UTI '.date('Y').' </>');
         $twig = new \Slim\Views\Twig();
         $userSettings = array_merge($userSettings, array(
             'debug' => NOVOSGA_DEV,
@@ -40,6 +42,7 @@ class App extends \Slim\Slim
         parent::__construct($userSettings);
 
         $this->view()->set('version', self::VERSION);
+        $this->view()->set('uti', $this->uti);
 
         $this->view()->parserExtensions = array(
             new \Slim\Views\TwigExtension(),
@@ -58,6 +61,7 @@ class App extends \Slim\Slim
 
         $app->error(function (\Exception $e) use ($app) {
             $app->view()->set('exception', $e);
+            var_dump($e); exit;
             $app->render(NOVOSGA_TEMPLATES.'/error/500.html.twig');
         });
     }

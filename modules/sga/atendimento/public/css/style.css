@@ -4,21 +4,39 @@
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
 
-.module-content .header {
-    margin-bottom: 0 !important;
-}
+ @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"); /* FA CSS import */
 
-#atendimento {
-    position: relative;
+ * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-size: 14px;
+ }
+
+#sga-block {
+    bottom: 15px;
+    right: 156px;
+    position: fixed;
+    padding: 10px 15px;
 }
 
 /* local */
 
+#atendimento {
+    margin-bottom: 1rem;
+}
+
 #atendimento #local {
-    min-width: 130px;
-    height: 150px;
-    background-color: #F8CA00;
-    border-bottom: 3px solid #333;
+    color: white;
+    background-color: #003641;
+    border-bottom: 8px solid #C9D200;
+    border-top-right-radius: 8px;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
 }
 
 #atendimento #local span {
@@ -32,49 +50,136 @@
     padding-top: 10px;
     padding-bottom: 5px;
     line-height: 14px;
+    text-transform: uppercase;
 }
 
 #atendimento #local .numero {
-    font-size: 80px;
-    line-height: 80px;
-    padding: 5px 0;
+    font-size: 7rem;
+    line-height: 7rem;
+    padding: 1rem 0;
 }
 
 #atendimento #local a {
-    color: #666;
+    color: white;
     bottom: 10px;
     width: 100%;
-    font-size: 12px;
+    font-size: 1rem;
     text-align: center;
     display: block;
 }
 
-#atendimento #local a:hover { color: #000; }
+#atendimento #local a:hover { color: #dadada; }
 
 /* controls */
 
 #atendimento #controls {
     min-height: 300px;
+    height: 100%;
+}
+
+#atendimento #controls #chamar,
+#atendimento #controls #iniciar,
+#atendimento #controls #encerrar{
+    border: 1px solid #cacaca;
+    border-radius: 8px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    padding: 3rem;
+    width: 100%;
+    height: 100%;
+    background-color: white;
 }
 
 #atendimento #controls .btn-control {
-}
-
-#atendimento #controls .btn-control span {
-    padding-top: 60px;
-    background-position: center 5px;
-    background-repeat: no-repeat;
+    padding: 2rem;
     display: block;
+    color: white;
+    background-color: #00ae9d;
+    font-size: 2rem;
+    width: 100%;
+    border-radius: 6px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+
+    transition: all 0.2s;
+    text-transform: uppercase;
 }
 
-#atendimento #controls .btn-control.chamar span,
-#atendimento #controls .btn-control.chamar_novamente span { background-image: url(../images/icon-chamar.png); }
-#atendimento #controls .btn-control.iniciar span { background-image: url(../images/icon-iniciar.png); }
-#atendimento #controls .btn-control.encerrar span,
-#atendimento #controls .btn-control.codificar span { background-image: url(../images/icon-encerrar.png); }
-#atendimento #controls .btn-control.encerrar_voltar span { background-image: url(../images/icon-voltar.png); }
-#atendimento #controls .btn-control.nao_compareceu span { background-image: url(../images/icon-naocompareceu.png); }
-#atendimento #controls .btn-control.erro_triagem span { background-image: url(../images/icon-errotriagem.png); }
+#atendimento #controls .btn-control i {
+    font-size: 3rem;
+}
+
+#atendimento #controls .btn-control-success {
+    color: white;
+    background-color: #00ae9d;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+}
+
+#atendimento #controls .btn-control-chamar {
+    color: white;
+    background-color: #00ae9d;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+    min-height: 64px;
+}
+
+#atendimento #controls .btn-control-success:hover,
+#atendimento #controls .btn-control-chamar:hover {
+    background-color: #0a5c54;
+    color: #cecdcd;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+}
+
+#atendimento #controls .btn-control-erro {
+    color: white;
+    background-color: #8b0808;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+}
+
+#atendimento #controls .btn-control-erro:hover {
+    background-color: #640505;
+    color: #cecdcd;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+}
+
+#atendimento #controls .btn-control-encerrar {
+    color: white;
+    background-color: #7DB61C;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+}
+
+#atendimento #controls .btn-control-encerrar:hover {
+    background-color: #5c8515;
+    color: #cecdcd;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+}
+
+#atendimento #controls .btn-control-iniciar {
+    color: white;
+    background-color: #7DB61C;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+}
+
+#atendimento #controls .btn-control-iniciar:hover {
+    background-color: #4e750a;
+    color: #cecdcd;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+}
+
+#atendimento #controls .btn-control-nao-compareceu {
+    color: white;
+    background-color: #700006;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+}
+
+#atendimento #controls .btn-control-nao-compareceu:hover {
+    background-color: #4d0004;
+    color: #cecdcd;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+}
+
+#atendimento #controls .btn-control-nao-compareceu:hover {
+    background-color: #4d0004;
+    color: #cecdcd;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+}
 
 #atendimento #chamar .row {
     padding-top: 20px;
@@ -85,25 +190,51 @@
     margin: 0;
 }
 
+#atendimento #controls #codificar .items li{
+    margin-bottom: 0.5rem;
+}
+
 #atendimento #controls #codificar .items {
-    padding: 10px;
-    border-radius: 3px;
-    background-color: #F7F9FE;
-    border: 1px solid #E1E1E8;
-    list-style-position: inside;
+    padding: 1rem;
+    border-radius: 10px;
+    background-color: #ffffff;
+    border: 1px solid #0036415b;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    list-style: none;
 }
 
-#atendimento #controls #codificar .items ul { padding: 5px 10px; }
-
-#atendimento #controls #codificar #macro-servicos {
-    height: 300px;
-    overflow: auto;
+#atendimento #controls #codificar .items .servico > a,
+#atendimento #controls #codificar .items .servico > p{
+    background-color: #00ae9d;
+    padding: 4px;
+    margin: 0.5rem;
+    border-radius: 8px;
+    margin: 0.5rem;
+    color: white;
+    text-decoration: none;
 }
 
-#atendimento #controls #codificar #servicos-realizados {
-    height: 150px;
-    overflow: auto;
+#atendimento #controls #codificar .items .servico > a:hover{
+    background-color: #00ae9d71;
+    color: white;
 }
+
+#atendimento #controls #codificar .items .subservico > a{
+    background-color: #4e750a;
+    padding: 0.3rem;
+    border-radius: 8px;
+    margin-top: 0.2rem;
+    color: white;
+    margin-left: 1rem;
+    text-decoration: none;
+}
+
+#atendimento #controls #codificar .items .subservico > a:hover{
+    background-color: #517e04;
+}
+
+
+#atendimento #controls #codificar .items ul { padding: 5px 10px; list-style: none; }
 
 #atendimento #controls #codificar div.redirecionar {
     padding: 10px 0 5px 10px;
@@ -116,6 +247,8 @@
 /* controls - atendimento info */
 
 #atendimento #controls .senha {
+    margin-bottom: 2rem;
+    
 }
 
 #atendimento #controls .senha .title {
@@ -125,25 +258,34 @@
 
 #atendimento #controls .senha .info {
     padding: 15px 20px;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    border-radius: 3px;
-    background-color: #f9f9f9;
-    border: 1px solid #e1e1e8;
+    border-radius: 6px;
+    -moz-border-radius: 6px;
+    background-color: #ffffff;
+    border: 1px solid #ededee;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 0 1rem 0 1rem;
 }
 
-#atendimento #controls .senha .info li {
-    list-style: none;
-    padding: 3px 0;
-    display: block;
+#atendimento #controls .senha .info .numero,
+#atendimento #controls .senha .info .nome-prioridade,
+#atendimento #controls .senha .info .servico,
+#atendimento #controls .senha .info .nome{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 5px;
 }
 
-#atendimento #controls .senha .info li .atend-label {
+#atendimento #controls .senha .info .atend-label {
     width: 100px;
     float: left;
+    text-transform: uppercase;
+    padding-bottom: 5px;
 }
 
-#atendimento #controls .senha .info li.numero .atend-value {
+#atendimento #controls .senha .info .atend-value {
     font-size: 30px;
     font-weight: bold;
 }
@@ -152,65 +294,163 @@
 
 /* fila */
 
-#atendimento #fila {
-    clear: both;
-}
-
-#atendimento #fila h4 {
+/* #atendimento #lista-fila h4 {
     padding: 5px 0 5px 10px;
     display: block;
 }
 
-#atendimento #fila h4 span {
-    padding-left: 5px;
-}
 
-#atendimento #fila span.tipo-1 { } /* todos */
-#atendimento #fila span.tipo-2 { color: blue; } /* convencional */ 
-#atendimento #fila span.tipo-3 { color: red; } /* prioridade */
+#atendimento #lista-fila span.tipo-1 { } /* todos */
+#atendimento #lista-fila span.tipo-2 { color: blue; } /* convencional */ 
+#atendimento #lista-fila span.tipo-3 { color: red; } /* prioridade */
 
-#atendimento #fila ul {
-    min-height: 40px;
-    padding: 0 0 10px 45px;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
+#atendimento #lista-fila {
+    display: grid;
+    grid-template-columns: repeat(4, auto);
+    gap: 1rem;
     border-radius: 3px;
-    background-color: #F7F9FE;
-    background-image: url(../images/client-16.png);
-    background-position: 20px center;
-    background-repeat: no-repeat;
-    border: 1px solid #e1e1e8;
 }
     
-#atendimento #fila ul li {
+#atendimento #lista-fila div.lista-item {
     list-style: none;
-    display: inline;
-    padding: 12px 6px 0 6px;
+    padding: 1rem;
+    border-left: 6px solid #ececec;
+    border-radius: 8px;
+    width: 100%;
+    align-items: center;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    background-color: white;
+}
+
+#atendimento #lista-fila div.lista-item span.senha{
+    font-size: 2.25rem;
+    margin-top: 0.25rem;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(218, 216, 216, 0.377);
+}
+
+#atendimento #lista-fila div.lista-item span.subtitle{
+    font-size: 1rem;
+    margin: 0.75rem 0 0 0;
+}
+
+#atendimento #lista-fila div.lista-item span.title{
+    font-weight: bold;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+}
+
+#atendimento #lista-fila div.lista-item:hover {
+    background-color: #fcfcfc;
+    border-left: 6px solid rgb(0, 54, 65);
+    color: #666;
+}
+
+#atendimento #lista-fila div.proximo {
+    background-color: rgb(0, 54, 65);
+    color: white;
+    font-weight: bold;
+    border-left: 6px solid rgb(0, 54, 65);
+    box-shadow: rgba(63, 0, 92, 0.24) 0px 3px 8px;
+}
+
+#atendimento #lista-fila div.lista-item a.proximo {
+    color: white;
+    
+}
+
+#atendimento #lista-fila div.proximo:hover {
+    color: white;
+    background-color: rgba(0, 54, 65, 0.897);
+    border-left: 6px solid #C9D200;
+    box-shadow: rgba(63, 0, 92, 0.24) 0px 3px 8px;
+}
+
+/* tempo de espera */
+
+#atendimento #lista-fila div.lista-item div.tempoEspera {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-top: 1px solid rgba(218, 216, 216, 0.377);
+    padding-top: 0.5rem;
+    margin-top: 0.2rem;
+}
+
+/* ICONS */
+#iconUsuarioPreferencial::before {
+    font-family: 'Font Awesome 6 Free';
+    content: "\f508";
     display: inline-block;
+    font-size: 1.3rem;
+    margin-right: 6px;
+    text-align: start;
 }
 
-#atendimento #fila ul li .proximo {
-    font-size: 20px;
+#iconPrioridade::before {
+    font-family: 'Font Awesome 6 Free';
+    content: "\e548";
+    display: inline-block;
+    font-size: 1.3rem;
+    margin-right: 6px;
+    text-align: start;
 }
 
-#atendimento #fila ul li .prioridade {
-    color: #ff3300;
+#iconTempoEspera::before {
+    font-family: 'Font Awesome 6 Free';
+    content: "\f252";
+    display: inline-block;
+    font-size: 1.3rem;
+    margin-right: 6px;
+    text-align: start;
 }
 
-#atendimento #fila ul li.empty {
-    color: #999;
+#iconServico::before {
+    font-family: 'Font Awesome 6 Free';
+    content: "\f085";
+    display: inline-block;
+    font-size: 1.3rem;
+    margin-right: 6px;
+    text-align: start;
+}
+
+/* ICONS */
+
+/* tempo de espera */
+
+#atendimento #lista-fila div.empty {
+    display: flex;
+    color: #8f8d8d;
     font-style: italic;
-    padding-top: 15px;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #8f8d8d34;
+    background-color: #cac8c842;
+    border-radius: 10px;
+    font-size: 3rem;
+    padding: 3rem;
+    grid-column: 1 / span 4;
 }
 
-p.links {
-    padding-top: 20px;
+#atendimento #lista-fila div.lista-item a{
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: rgb(0, 54, 65);
+} */
+
+
+div.links {
+    margin-top: 2rem;
     text-align: center;
     clear: both;
-}
-
-p.links a {
-    margin: 0 5px;
 }
 
 #dialog-busca .modal-dialog {
@@ -219,4 +459,46 @@ p.links a {
 
 #dialog-busca .result {
     overflow: auto;
+}
+
+/* CARD E CARD HEADER */
+
+div.card {
+    margin: 1rem 0 1rem 0;
+    padding: 2rem;
+}
+
+div.card-header {
+    margin-bottom: 1rem;
+}
+
+div.card-header h4 {
+    font-size: 2rem;
+    font-weight: bold;
+    color: rgb(0, 54, 65);
+    text-transform: uppercase;
+}
+
+div.card .row {
+    display: flex;
+    flex-direction: row;
+}
+
+/* BAGDE */
+
+.badge {
+    padding: 1rem;
+    font-weight: bold;
+    border-radius: 10px;
+    background-color: transparent;
+}
+
+.badge-success {
+    border:1px solid #00ae9d;
+    color: #00ae9d;
+}
+
+.badge-secondary {
+    border:1px solid #777777;
+    color: #777777;
 }

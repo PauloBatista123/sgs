@@ -122,6 +122,37 @@ $app->get('/servicos(/:unidade)', function($unidade = 0) use ($api) {
 });
 
 /**
+ * Retorna os serviços globais ou habilitados por unidade (quando a mesma for informada)
+ * 
+ * GET /servicos
+ * < 200
+ * [ 
+ *   { 
+ *     id: 1, 
+ *     nome: "Serviço 1"
+ *   },
+ *   { 
+ *     id: 2, 
+ *     nome: "Serviço 2"
+ *   }
+ * ]
+ * 
+ * GET /servicos/1
+ * < 200
+ * [ 
+ *   { 
+ *     id: 1, 
+ *     sigla: "A",
+ *     nome: "Serviço 1",
+ *     local: "Guichê"
+ *   }
+ * ]
+ */
+$app->get('/usuarios/gerencia', function() use ($api) {
+    echo json_encode($api->usuariosGerencia());
+});
+
+/**
  * Retorna a senhas a serem chamadas pelo painel da unidade. Uma lista de serviços
  * deve ser informada na query string (separados por vírgula)
  * 
@@ -250,8 +281,10 @@ $app->post('/distribui', function() use ($app, $api, $server) {
     $prioridade = (int) $app->request()->post('prioridade');
     $nomeCliente = $app->request()->post('nome_cliente');
     $documentoCliente = $app->request()->post('doc_cliente');
+    $usuarioReference = $app->request()->post('usuario_preference');
+
     // distribuindo nova senha
-    echo json_encode($api->distribui($unidade, $usuario, $servico, $prioridade, $nomeCliente, $documentoCliente));
+    echo json_encode($api->distribui($unidade, $usuario, $servico, $prioridade, $nomeCliente, $documentoCliente, $usuarioReference));
 });
 
 /**

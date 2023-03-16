@@ -7,13 +7,19 @@
 
 {% block moduleContent %}
 <div>
-    <ul class="nav nav-tabs">
-        <li class="active"><a href="#tab-hoje" data-toggle="tab">{% trans %}Hoje{% endtrans %}</a></li>
-        <li><a href="#tab-graficos" data-toggle="tab">{% trans %}Gráficos{% endtrans %}</a></li>
-        <li><a href="#tab-relatorios" data-toggle="tab">{% trans %}Relatórios{% endtrans %}</a></li>
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="active nav-item" role="presentation">
+            <button class="nav-link active" id="tab-hoje" data-bs-toggle="tab" data-bs-target="#tab-hoje-pane" type="button" role="tab" aria-controls="tab-hoje-pane" aria-selected="true">{% trans %}Hoje{% endtrans %}</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="tab-graficos" data-bs-toggle="tab" data-bs-target="#tab-graficos-pane" type="button" role="tab" aria-controls="tab-graficos-pane" aria-selected="false">{% trans %}Gráficos{% endtrans %}</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="tab-relatorios" data-bs-toggle="tab" data-bs-target="#tab-relatorios-pane" type="button" role="tab" aria-controls="tab-relatorios-pane" aria-selected="false">{% trans %}Relatórios{% endtrans %}</button>
+        </li>
     </ul>
     <div id="tabs" class="tab-content">
-        <div id="tab-hoje" class="tab-pane active">
+        <div class="tab-pane fade show active" id="tab-hoje-pane" role="tabpanel" aria-labelledby="tab-hoje" tabindex="0">
             <h2 class="chart-title">{% trans %}Atendimentos realizados em {{ now }}{% endtrans %}</h2>
             {% for unidade in unidades %}
             <div class="chart-unidade">
@@ -35,7 +41,7 @@
             </div>
             {% endfor %}
         </div>
-        <div id="tab-graficos" class="tab-pane">
+        <div class="tab-pane fade" id="tab-graficos-pane" role="tabpanel" aria-labelledby="tab-graficos" tabindex="0">
             <form id="chart-form" action="#" onsubmit="return false">
                 <div class="form-group required">
                     <label for="chart-id">{% trans %}Gráfico{% endtrans %}</label>
@@ -71,7 +77,7 @@
                 <div id="chart-result"></div>
             </form>
         </div>
-        <div id="tab-relatorios" class="tab-pane">
+        <div class="tab-pane fade" id="tab-relatorios-pane" role="tabpanel" aria-labelledby="tab-relatorios" tabindex="0">
             <form id="report-form" action="{{ baseUrl() }}/modules/{{ module.chave }}/relatorio" method="get" target="_blank" onsubmit="return SGA.Estatisticas.Relatorio.gerar()">
                 <input type="hidden" id="report-hidden-inicial" name="inicial" />
                 <input type="hidden" id="report-hidden-final" name="final" />

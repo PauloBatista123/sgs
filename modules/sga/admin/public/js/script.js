@@ -54,6 +54,13 @@ SGA.Admin = {
                     SGA.Admin.WebApi.loadClients();
                     dialog.find('input').val('');
                     dialog.modal('hide');
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: 'Registro enviado com sucesso!',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
                 },
                 complete: function() {
                     btn.disabled = false;
@@ -80,7 +87,7 @@ SGA.Admin = {
                                     .append(
                                         $('<td class="buttons"></td>')
                                             .append(
-                                                $('<a href="#" data-id="' + client.id + '" class="btn btn-default"><span class="glyphicon glyphicon-edit"></span></a>')
+                                                $('<a href="#" data-id="' + client.id + '" class="btn btn-sm btn-outline-info"><i class="fa-solid fa-pencil"></i></a>')
                                                 .on('click', function() {
                                                     var elem = $(this);
                                                     $.ajax({
@@ -99,19 +106,28 @@ SGA.Admin = {
                                                 })
                                             )
                                             .append(
-                                                $('<a href="#" data-id="' + client.id + '" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></a>')
+                                                $('<a href="#" data-id="' + client.id + '" class="btn btn-sm btn-outline-danger"><i class="fa-regular fa-trash-can"></i></a>')
                                                 .on('click', function() {
-                                                    if (confirm('Deseja mesmo remover o cliente?')) {
-                                                        var elem = $(this);
-                                                        $.ajax({
-                                                            url: SGA.baseUrl + '/modules/sga.admin/delete_oauth_client',
-                                                            type: 'post',
-                                                            data: { client_id: elem.data('id') },
-                                                            success: function() {
-                                                                SGA.Admin.WebApi.loadClients();
-                                                            }
-                                                        });
-                                                    }
+                                                    Swal.fire({
+                                                        icon: 'warning',
+                                                        title: "Deseja realmente excluir esse cliente?",
+                                                        showCancelButton: true,
+                                                        confirmButtonText: 'Confirmar',
+                                                        cancelButtonText: `Cancelar`,
+                                                      }).then((result) => {
+                                                        /* Read more about isConfirmed, isDenied below */
+                                                        if (result.isConfirmed) {
+                                                            var elem = $(this);
+                                                            $.ajax({
+                                                                url: SGA.baseUrl + '/modules/sga.admin/delete_oauth_client',
+                                                                type: 'post',
+                                                                data: { client_id: elem.data('id') },
+                                                                success: function() {
+                                                                    SGA.Admin.WebApi.loadClients();
+                                                                }
+                                                            });
+                                                        }
+                                                      });
                                                     return false;
                                                 })
                                             )

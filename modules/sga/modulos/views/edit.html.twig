@@ -19,13 +19,19 @@
         </div>
         {% if modulo and modulo.id %}
             <input id="modulo_id" type="hidden" value="{{ modulo.id }}" />
-            <ul class="nav nav-tabs">
-                <li class="active"><a href="#tab-sobre" data-toggle="tab">{% trans %}Sobre{% endtrans %}</a></li>
-                <li><a href="#tab-css" data-toggle="tab">CSS</a></li>
-                <li><a href="#tab-javascript" data-toggle="tab">Javascript</a></li>
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="active nav-item" role="presentation">
+                    <button class="nav-link active" id="tab-sobre" data-bs-toggle="tab" data-bs-target="#tab-sobre-pane" type="button" role="tab" aria-controls="tab-sobre-pane" aria-selected="true">{% trans %}Sobre{% endtrans %}</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="tab-css" data-bs-toggle="tab" data-bs-target="#tab-css-pane" type="button" role="tab" aria-controls="tab-css-pane" aria-selected="false">{% trans %}Acesso{% endtrans %}</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="tab-javascript" data-bs-toggle="tab" data-bs-target="#tab-javascript-pane" type="button" role="tab" aria-controls="tab-javascript-pane" aria-selected="false">{% trans %}Javascript{% endtrans %}</button>
+                </li>
             </ul>
-            <div class="tab-content">
-                <div id="tab-sobre" class="tab-pane active">
+             <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="tab-sobre-pane" role="tabpanel" aria-labelledby="tab-sobre" tabindex="0">
                     <div class="info">
                         <div class="icon">
                             <img src="{{ resources('images/icon.png', module.chave) }}" />
@@ -55,7 +61,7 @@
                         </div>
                     </div>
                 </div>
-                <div id="tab-css" class="tab-pane">
+                <div class="tab-pane fade" id="tab-css-pane" role="tabpanel" aria-labelledby="tab-css" tabindex="0">
                     <div class="resource-buttons">
                         <h4 class="css">CSS</h4>
                         <button onclick="SGA.Modulos.Resource.save('css')"
@@ -71,7 +77,7 @@
                     </div>
                     <textarea id="css" class="form-control" rows="20">{{ css }}</textarea>
                 </div>
-                <div id="tab-javascript" class="tab-pane">
+                <div class="tab-pane fade" id="tab-javascript-pane" role="tabpanel" aria-labelledby="tab-javascript" tabindex="0">
                     <div class="resource-buttons">
                         <h4 class="js">Javascript</h4>
                         <button onclick="SGA.Modulos.Resource.save('js')"

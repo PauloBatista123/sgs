@@ -2,224 +2,270 @@
 
 {% block moduleContent %}
 <div>
-    <ul class="nav nav-tabs">
-        <li class="active"><a href="#tab-geral" data-toggle="tab">{% trans %}Sistema{% endtrans %}</a></li>
-        <li><a href="#tab-triagem" data-toggle="tab">{% trans %}Triagem{% endtrans %}</a></li>
-        <li><a href="#tab-api" data-toggle="tab">API</a></li>
-        <li><a href="#tab-sobre" data-toggle="tab">{% trans %}Sobre{% endtrans %}</a></li>
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="active nav-item" role="presentation">
+            <button class="nav-link active" id="tab-geral" data-bs-toggle="tab" data-bs-target="#tab-geral-pane" type="button" role="tab" aria-controls="tab-geral-pane" aria-selected="true">{% trans %}Sistema{% endtrans %}</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="tab-triagem" data-bs-toggle="tab" data-bs-target="#tab-triagem-pane" type="button" role="tab" aria-controls="tab-triagem-pane" aria-selected="false">{% trans %}Triagem{% endtrans %}</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="tab-api" data-bs-toggle="tab" data-bs-target="#tab-api-pane" type="button" role="tab" aria-controls="tab-api-pane" aria-selected="false">{% trans %}API{% endtrans %}</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="tab-sobre" data-bs-toggle="tab" data-bs-target="#tab-sobre-pane" type="button" role="tab" aria-controls="tab-sobre-pane" aria-selected="false">{% trans %}Sobre{% endtrans %}</button>
+        </li>
     </ul>
-    <div class="tab-content">
-        <div id="tab-geral" class="tab-pane active">
-            <fieldset>
-                <legend>{% trans %}Banco de Dados{% endtrans %}</legend>
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>{% trans %}Chave{% endtrans %}</th>
-                            <th>{% trans %}Valor{% endtrans %}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for k,v in dbValues %}
-                        <tr>
-                            <td>{{ k }}</td>
-                            <td>
-                                {% if k == "password" %}
-                                    ***
-                                {% else %}
-                                    {{ v }}
-                                {% endif %}
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </fieldset>
-            <fieldset>
-                <legend>{% trans %}Autenticação{% endtrans %}</legend>
-                <div id="auth_message" style="display:none">
-                    <div class="alert alert-success">
-                        {% trans %}Configuração salva com sucesso{% endtrans %}
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="tab-geral-pane" role="tabpanel" aria-labelledby="tab-geral" tabindex="0">
+            <div class="card">
+                <div class="card-body">
+                    <div class="mb-3">
+                        <fieldset>
+                            <legend>{% trans %}Banco de Dados{% endtrans %}</legend>
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>{% trans %}Chave{% endtrans %}</th>
+                                        <th>{% trans %}Valor{% endtrans %}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for k,v in dbValues %}
+                                    <tr>
+                                        <td>{{ k }}</td>
+                                        <td>
+                                            {% if k == "password" %}
+                                                ***
+                                            {% else %}
+                                                {{ v }}
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </fieldset>
+                    </div>
+                    <div class="mb-3">
+                    <fieldset>
+                        <legend>{% trans %}Autenticação{% endtrans %}</legend>
+                        <div id="auth_message" style="display:none">
+                            <div class="alert alert-success">
+                                {% trans %}Configuração salva com sucesso{% endtrans %}
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="form-group auth-type">
+                                <label for="auth_type">{% trans %}Tipo{% endtrans %}</label>
+                                <select id="auth_type" class="form-control">
+                                    <option value="db" {% if auth.type == 'db' %}selected="selected"{% endif %}>{% trans %}Banco de Dados{% endtrans %}</option>
+                                    <option value="ldap" {% if auth.type == 'ldap' %}selected="selected"{% endif %}>{% trans %}LDAP e Banco de Dados{% endtrans %}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div id="auth-ldap" class="auth-config" {% if auth.type != 'ldap' %}style="display:none"{% endif %}>
+                            <div class="mb-3">
+                                <div class="form-group">
+                                    <label for="auth_ldap_host" class="form-label">{% trans %}Servidor{% endtrans %}</label>
+                                    <input id="auth_ldap_host" name="host" type="text" class="form-control" value="{{ auth.ldap.host }}" />
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="form-group">
+                                    <label for="auth_ldap_port">{% trans %}Porta{% endtrans %}</label>
+                                    <input id="auth_ldap_port" class="form-control" name="port" type="text" maxlength="6" value="{{ auth.ldap.port }}" />
+                                    <span class="help-block">ex: 389</span>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="form-group">
+                                    <label for="auth_ldap_host">{% trans %}Base DN{% endtrans %}</label>
+                                    <input id="auth_ldap_baseDn" name="baseDn" class="form-control" type="text" value="{{ auth.ldap.baseDn }}" />
+                                    <span class="help-block">ex: DC=novosga,DC=org</span>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="form-group">
+                                    <label for="auth_ldap_loginAttribute" class="form-label">{% trans %}Login Attribute{% endtrans %}</label>
+                                    <input id="auth_ldap_loginAttribute" name="loginAttribute" class="form-control" type="text" value="{{ auth.ldap.loginAttribute }}" />
+                                    <span class="help-block">ex: sAMAccountName</span>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="form-group">
+                                    <label for="auth_ldap_user" class="form-label">{% trans %}Usuário{% endtrans %}</label>
+                                    <input id="auth_ldap_user" name="username" class="form-control" type="text" value="{{ auth.ldap.username }}" />
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="form-group">
+                                    <label for="auth_ldap_pass" class="form-label">{% trans %}Senha{% endtrans %}</label>
+                                    <input id="auth_ldap_pass" name="password" class="form-control" type="password" value="{{ auth.ldap.password }}" />
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="form-group">
+                                    <label for="auth_ldap_filter" class="form-label">{% trans %}Filtro{% endtrans %}</label>
+                                    <input id="auth_ldap_filter" name="filter" class="form-control" type="text" value="{{ auth.ldap.filter }}" />
+                                    <span class="help-block">ex: objectClass=user</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="buttons">
+                            <button id="auth_save" class="btn btn-primary" onclick="SGA.Admin.Auth.save()">
+                                {% trans %}Salvar{% endtrans %}
+                            </button>
+                        </div>
+                    </fieldset>
                     </div>
                 </div>
-                <div class="form-group auth-type">
-                    <label for="auth_type">{% trans %}Tipo{% endtrans %}</label>
-                    <select id="auth_type" class="form-control">
-                        <option value="db" {% if auth.type == 'db' %}selected="selected"{% endif %}>{% trans %}Banco de Dados{% endtrans %}</option>
-                        <option value="ldap" {% if auth.type == 'ldap' %}selected="selected"{% endif %}>{% trans %}LDAP e Banco de Dados{% endtrans %}</option>
-                    </select>
-                </div>
-                <div id="auth-ldap" class="auth-config" {% if auth.type != 'ldap' %}style="display:none"{% endif %}>
-                    <div class="form-group required">
-                        <label for="auth_ldap_host" class="form-label">{% trans %}Servidor{% endtrans %}</label>
-                        <input id="auth_ldap_host" name="host" type="text" class="form-control" value="{{ auth.ldap.host }}" />
-                    </div>
-                    <div class="form-group required">
-                        <label for="auth_ldap_port">{% trans %}Porta{% endtrans %}</label>
-                        <input id="auth_ldap_port" class="form-control" name="port" type="text" maxlength="6" value="{{ auth.ldap.port }}" />
-                        <span class="help-block">ex: 389</span>
-                    </div>
-                    <div class="form-group required">
-                        <label for="auth_ldap_host">{% trans %}Base DN{% endtrans %}</label>
-                        <input id="auth_ldap_baseDn" name="baseDn" class="form-control" type="text" value="{{ auth.ldap.baseDn }}" />
-                        <span class="help-block">ex: DC=novosga,DC=org</span>
-                    </div>
-                    <div class="form-group required">
-                        <label for="auth_ldap_loginAttribute" class="form-label">{% trans %}Login Attribute{% endtrans %}</label>
-                        <input id="auth_ldap_loginAttribute" name="loginAttribute" class="form-control" type="text" value="{{ auth.ldap.loginAttribute }}" />
-                        <span class="help-block">ex: sAMAccountName</span>
-                    </div>
-                    <div class="form-group">
-                        <label for="auth_ldap_user" class="form-label">{% trans %}Usuário{% endtrans %}</label>
-                        <input id="auth_ldap_user" name="username" class="form-control" type="text" value="{{ auth.ldap.username }}" />
-                    </div>
-                    <div class="form-group">
-                        <label for="auth_ldap_pass" class="form-label">{% trans %}Senha{% endtrans %}</label>
-                        <input id="auth_ldap_pass" name="password" class="form-control" type="password" value="{{ auth.ldap.password }}" />
-                    </div>
-                    <div class="form-group">
-                        <label for="auth_ldap_filter" class="form-label">{% trans %}Filtro{% endtrans %}</label>
-                        <input id="auth_ldap_filter" name="filter" class="form-control" type="text" value="{{ auth.ldap.filter }}" />
-                        <span class="help-block">ex: objectClass=user</span>
-                    </div>
-                </div>
-                <div class="buttons">
-                    <button id="auth_save" class="btn btn-primary" onclick="SGA.Admin.Auth.save()">
-                        {% trans %}Salvar{% endtrans %}
-                    </button>
-                </div>
-            </fieldset>
-        </div>
-        <div id="tab-triagem" class="tab-pane">
-            <div class="form-group">
-                <label for="numeracao" class="form-label">{% trans %}Tipo de numeração{% endtrans %}</label>
-                <select id="numeracao" class="form-control" onchange="SGA.Admin.changeNumeracao()">
-                    {% for k,v in numeracoes %}
-                    <option value="{{ k }}" {% if k == numeracao %}selected="selected"{% endif %}>{{ v }}</option>
-                    {% endfor %}
-                </select>
             </div>
-            <div class="form-group">
-                <label class="form-label">{% trans %}Reiniciar senhas{% endtrans %}</label>
-                <button class="btn btn-danger"
-                        onclick="return SGA.Admin.reiniciarSenhas('{% trans %}Deseja realmente reiniciar as senhas de todas unidades?{% endtrans %}')">
-                    {% trans %}Reiniciar{% endtrans %}
-                </button>
+        </div>
+        <div class="tab-pane fade" id="tab-triagem-pane" role="tabpanel" aria-labelledby="tab-triagem" tabindex="0">
+            <div class="card">
+                <div class="card-body">
+                    <div class="mb-3">
+                        <div class="form-group">
+                            <label for="numeracao" class="form-label">{% trans %}Tipo de numeração{% endtrans %}</label>
+                            <select id="numeracao" class="form-control" onchange="SGA.Admin.changeNumeracao()">
+                                {% for k,v in numeracoes %}
+                                <option value="{{ k }}" {% if k == numeracao %}selected="selected"{% endif %}>{{ v }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="form-group">
+                            <label class="form-label">{% trans %}Reiniciar senhas{% endtrans %}</label>
+                            <button class="btn btn-danger"
+                                    onclick="return SGA.Admin.reiniciarSenhas('{% trans %}Deseja realmente reiniciar as senhas de todas unidades?{% endtrans %}')">
+                                {% trans %}Reiniciar{% endtrans %}
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div id="tab-api" class="tab-pane">
-            <fieldset>
-                <legend>Web API</legend>
-                <p>As URLs abaixo são usadas para integrar o Novo SGA com outros projetos, como por exemplo o <strong>Painel Web</strong> e a <strong>Triagem Touch</strong>.</p>
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Method</th>
-                            <th>URI</th>
-                            <th>Description</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <span class="label label-danger">POST</span>
-                            </td>
-                            <td>
-                                /api/token
-                            </td>
-                            <td>
-                                Autentica o usuário retornando o token de acesso.
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <span class="label label-success">GET</span>
-                            </td>
-                            <td>
-                                /api/unidades
-                            </td>
-                            <td>
-                                Retorna todas as unidades disponíveis
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <span class="label label-success">GET</span>
-                            </td>
-                            <td>
-                                /api/prioridades
-                            </td>
-                            <td>
-                                Retorna todas as prioridades disponíveis
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <span class="label label-success">GET</span>
-                            </td>
-                            <td>
-                                /api/servicos
-                            </td>
-                            <td>
-                                Retorna os serviços globais
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <span class="label label-success">GET</span>
-                            </td>
-                            <td>
-                                /api/servicos/:unidade
-                            </td>
-                            <td>
-                                Retorna os serviços habilitados para a unidade informada
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <span class="label label-danger">POST</span>
-                            </td>
-                            <td>
-                                /api/distribui
-                            </td>
-                            <td>
-                                Distribui uma nova senha para atendimento. Requer autenticação, um access_token válido e ativo.
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </fieldset>
-            <fieldset>
-                <legend>{% trans %}Clientes{% endtrans %}</legend>
-                <p>Para acessar algumas URLs é necessário possuir um token de acesso, e para isso é necessário primeiro cadastrar a aplicação cliente.</p>
-                <table id="oauth_clients" class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Client Id</th>
-                            <th>Client Secret</th>
-                            <th>Redirect URI</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td class="buttons">
-                                <a href="#dialog-clientid" data-toggle="modal" class="btn btn-default" onclick="$('#dialog-clientid :input').val('');">
-                                    <span class="glyphicon glyphicon-plus"></span>
-                                    {% trans %}Adicionar{% endtrans %}
-                                </a>
-                            </td>
-                        </tr>
-                    </tfoot>
-                </table>
-            </fieldset>
+        <div class="tab-pane fade" id="tab-api-pane" role="tabpanel" aria-labelledby="tab-api" tabindex="0">
+            <div class="card">
+                <div class="card-body">
+                    <div class="mb-3">
+                        <fieldset>
+                            <legend>Web API</legend>
+                            <p>As URLs abaixo são usadas para integrar o Novo SGA com outros projetos, como por exemplo o <strong>Painel Web</strong> e a <strong>Triagem Touch</strong>.</p>
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Method</th>
+                                        <th>URI</th>
+                                        <th>Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <span class="label label-danger">POST</span>
+                                        </td>
+                                        <td>
+                                            /api/token
+                                        </td>
+                                        <td>
+                                            Autentica o usuário retornando o token de acesso.
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <span class="label label-success">GET</span>
+                                        </td>
+                                        <td>
+                                            /api/unidades
+                                        </td>
+                                        <td>
+                                            Retorna todas as unidades disponíveis
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <span class="label label-success">GET</span>
+                                        </td>
+                                        <td>
+                                            /api/prioridades
+                                        </td>
+                                        <td>
+                                            Retorna todas as prioridades disponíveis
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <span class="label label-success">GET</span>
+                                        </td>
+                                        <td>
+                                            /api/servicos
+                                        </td>
+                                        <td>
+                                            Retorna os serviços globais
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <span class="label label-success">GET</span>
+                                        </td>
+                                        <td>
+                                            /api/servicos/:unidade
+                                        </td>
+                                        <td>
+                                            Retorna os serviços habilitados para a unidade informada
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <span class="label label-danger">POST</span>
+                                        </td>
+                                        <td>
+                                            /api/distribui
+                                        </td>
+                                        <td>
+                                            Distribui uma nova senha para atendimento. Requer autenticação, um access_token válido e ativo.
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </fieldset>
+                        <fieldset>
+                            <legend>{% trans %}Clientes{% endtrans %}</legend>
+                            <p>Para acessar algumas URLs é necessário possuir um token de acesso, e para isso é necessário primeiro cadastrar a aplicação cliente.</p>
+                            <table id="oauth_clients" class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Client Id</th>
+                                        <th>Client Secret</th>
+                                        <th>Redirect URI</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="buttons">
+                                            <a data-bs-toggle="modal" data-bs-target="#dialog-clientid" class="btn btn-sm btn-primary" onclick="$('#dialog-clientid :input').val('');">
+                                                <i class="fa-solid fa-plus"></i>
+                                                {% trans %}Adicionar{% endtrans %}
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div id="tab-sobre" class="tab-pane">
+        <div class="tab-pane fade" id="tab-sobre-pane" role="tabpanel" aria-labelledby="tab-sobre" tabindex="0">
             <div class="jumbotron">
                 <h1>Novo SGA v{{ version }}</h1>
                 <p>Sistema de Gerenciamento de Atendimento</p>
@@ -303,8 +349,8 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">{% trans %}Configuração{% endtrans %}</h4>
+                <h5 class="modal-title">{% trans %}Configurações{% endtrans %}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <p>{% trans %}Senhas reiniciadas com sucesso{% endtrans %}</p>
@@ -321,8 +367,8 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">OAuth2 client</h4>
+                <h5 class="modal-title">{% trans %}OAuth2 client{% endtrans %}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form action="{{ baseUrl() }}/modules/sga.admin/add_oauth_client" method="post">

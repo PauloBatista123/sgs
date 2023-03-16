@@ -65,6 +65,14 @@ abstract class AbstractAtendimento extends SequencialModel
     protected $usuarioTriagem;
 
     /**
+     * @ManyToOne(targetEntity="Usuario")
+     * @JoinColumn(name="usuario_preference", referencedColumnName="id")
+     *
+     * @var Usuario
+     */
+    protected $usuarioReference;
+
+    /**
      * @Column(type="smallint", name="num_local", nullable=false)
      */
     protected $local;
@@ -369,6 +377,18 @@ abstract class AbstractAtendimento extends SequencialModel
         return $this;
     }
 
+    public function getUsuarioReference()
+    {
+        return $this->usuarioReference;
+    }
+
+    public function setUsuarioReference(Usuario $usuarioReference)
+    {
+        $this->usuarioReference = $usuarioReference;
+
+        return $this;
+    }
+
     /**
      * Retorna o tempo de espera do cliente até ser atendido.
      * A diferença entre a data de chegada até a data atual.
@@ -453,6 +473,7 @@ abstract class AbstractAtendimento extends SequencialModel
             'chegada' => $this->getDataChegada()->format('Y-m-d H:i:s'),
             'espera' => $this->getTempoEspera()->format('%H:%I:%S'),
         );
+
         if (!$minimal) {
             $arr['numero'] = $this->getSenha()->getNumero();
             if ($this->getUsuario()) {
@@ -460,9 +481,6 @@ abstract class AbstractAtendimento extends SequencialModel
             }
             if ($this->getUsuarioTriagem()) {
                 $arr['triagem'] = $this->getUsuarioTriagem()->getLogin();
-            }
-            if ($this->getDataInicio()) {
-                $arr['inicio'] = $this->getDataInicio()->format('Y-m-d H:i:s');
             }
             if ($this->getDataFim()) {
                 $arr['fim'] = $this->getDataFim()->format('Y-m-d H:i:s');
@@ -473,6 +491,13 @@ abstract class AbstractAtendimento extends SequencialModel
                 'nome' => $this->getCliente()->getNome(),
                 'documento' => $this->getCliente()->getDocumento(),
             );
+            if($this->getUsuarioReference()){
+                $arr['usuario_preference'] = $this->getUsuarioReference();
+            }
+            if ($this->getDataInicio()) {
+                $arr['inicio'] = $this->getDataInicio()->format('Y-m-d H:i:s');
+            }
+            
         }
 
         return $arr;
