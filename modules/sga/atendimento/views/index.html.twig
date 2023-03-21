@@ -56,10 +56,13 @@
     </div>
     {# se ainda nao definiu o numero do local, exibe automaticamente a dialog #}
     {% if local <= 0 %}
-        <script type="text/javascript">
-            SGA.dialogs.modal('#dialog-local');
+    <div class="row p-2">
+        <button type="submit" class="btn btn-success" onclick="return SGA.dialogs.modal('#dialog-local')">Informar Guichê</button>
+    </div>
+        {# <script type="text/javascript">
             $('#local').focus();
-        </script>
+            $('#dialog-local').modal('show')
+        </script> #}
     {% else %}
         {# local definido, exibe tela de atendimento #}
         <div id="atendimento">

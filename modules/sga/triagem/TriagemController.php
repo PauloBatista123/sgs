@@ -143,9 +143,11 @@ class TriagemController extends ModuleController
         $prioridade = (int) $context->request()->post('prioridade');
         $nomeCliente = $context->request()->post('cli_nome', '');
         $documentoCliente = $context->request()->post('cli_doc', '');
+        $usuarioReference = null;
+
         try {
             $service = new AtendimentoService($this->em());
-            $response->data = $service->distribuiSenha($unidade, $usuario, $servico, $prioridade, $nomeCliente, $documentoCliente)->jsonSerialize();
+            $response->data = $service->distribuiSenha($unidade, $usuario, $servico, $prioridade, $nomeCliente, $documentoCliente, $usuarioReference)->jsonSerialize();
             $response->success = true;
         } catch (Exception $e) {
             $response->message = $e->getMessage();

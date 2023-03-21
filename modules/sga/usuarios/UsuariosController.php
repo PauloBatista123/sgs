@@ -74,7 +74,7 @@ class UsuariosController extends CrudController
     protected function preSave(Context $context, SequencialModel $model)
     {
         $login = $context->request()->post('login');
-        if (!preg_match('/^[a-zA-Z0-9\.]+$/', $login)) {
+        if (!preg_match('/^[a-zA-Z0-9\_]+$/', $login)) {
             throw new Exception(_('O login deve conter somente letras e números.'));
         }
         if (strlen($login) < 5 || strlen($login) > 20) {

@@ -99,7 +99,7 @@ html, body, #layout {
 .page-buttons {
     width: 100%;
     position: absolute;
-    bottom: 0;
+    top: 0;
     padding: 2em;
 }
 
@@ -292,3 +292,113 @@ html, body, #layout {
     color: #5e0101;
     font-size: 3rem;
 }
+
+/* step */
+
+#header .step {
+    width: 100%;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    position: fixed;
+    bottom: 0;
+}
+
+#header .step .stepper-wrapper {
+    margin-top: auto;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    margin-bottom: 20px;
+    width: 100%;
+  }
+  #header .step   .stepper-item {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+  
+    @media (max-width: 768px) {
+      font-size: 12px;
+    }
+  }
+
+  #header .step   .stepper-item .step-name {
+    font-size: 2rem;
+  }
+
+  #header .step  .stepper-item::before {
+    position: absolute;
+    content: "";
+    border-bottom: 2px solid #ccc;
+    width: 100%;
+    top: 35px;
+    left: -50%;
+    z-index: 2;
+  }
+  
+  #header .step  .stepper-item::after {
+    position: absolute;
+    content: "";
+    border-bottom: 2px solid #ccc;
+    width: 100%;
+    top: 35px;
+    left: 50%;
+    z-index: 2;
+  }
+  
+  #header .step   .stepper-item .step-counter {
+    position: relative;
+    z-index: 5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: #ccc;
+    margin-bottom: 6px;
+  }
+  
+  #header .step  .stepper-item.active {
+    font-weight: bold;
+  }
+
+  #header .step  .stepper-item.active .step-counter{
+    font-weight: bold;
+    background: #003641;
+    color: white;
+  }
+
+  #header .step  .stepper-item.completed .step-counter {
+    background-color: #00a091;
+    color: white;
+  }
+  
+  #header .step  .stepper-item.completed::after {
+    position: absolute;
+    content: "";
+    border-bottom: 2px solid #00a091;
+    width: 100%;
+    top: 35px;
+    left: 50%;
+    z-index: 3;
+  }
+  
+  #header .step  .stepper-item:first-child::before {
+    content: none;
+  }
+
+  #header .step  .stepper-item:last-child::after {
+    content: none;
+  }
+
+  .page-buttons button {
+    background-color: #003641;
+    color: white;
+  }
+
+  .page-buttons button:hover {
+    background-color: #157486;
+    color: #003641;
+  }

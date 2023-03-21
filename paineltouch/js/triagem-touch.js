@@ -10,7 +10,7 @@
     app.controller('TriagemCtrl', function($http) {
         var ctrl = this;
 
-        ctrl.cpfcnpj = "";
+        ctrl.conta = "";
         ctrl.urlLogo = 'images/novalogo.png';
 
         ctrl.meIdentificar = 'images/correto.png';
@@ -47,7 +47,7 @@
         }
         ctrl.cliente = {
             nome: '',
-            cpfcnpj: '',
+            conta: '',
         };
         ctrl.atendimento = {};
         
@@ -194,6 +194,7 @@
         ctrl.gotoPage = function(page, waitTime) {
             // default is 15 seconds to go back to start page
             waitTime = waitTime || 15;
+            
 
             $('#error').modal('hide');
             $('.page, .page-buttons .buttons').hide();
@@ -207,7 +208,52 @@
                     window.location.reload();
                 }, waitTime * 1000);
             }
+
+            ctrl.step(page);
         };
+
+        ctrl.step = function(page){
+            const prioridades = $('#prioridades-step');
+            const senhas = $('#printing-step');
+            const servicos = $('#servicos-step');
+            const identificarCooperado = $('#identificarCooperado-step');
+            const home = $('#identificacao-step');
+            const print = $('#printing-step');
+
+            switch(page){
+                case '.page.first':
+                    prioridades.hasClass('active') ? prioridades.removeClass('active completed') : '';
+                    servicos.hasClass('active') ? servicos.removeClass('active completed') : '';
+                    senhas.hasClass('active') ? senhas.removeClass('active completed') : '';
+                    identificarCooperado.hasClass('active') || identificarCooperado.hasClass('completed') ? identificarCooperado.removeClass('active completed') : '';
+                    home.hasClass('completed') ? home.removeClass('completed').addClass('active') : '';
+                break
+                case '#identificarCooperado':
+                    !identificarCooperado.hasClass('active') ? identificarCooperado.addClass('active') : '';
+                    prioridades.hasClass('active') ? prioridades.removeClass(['active', 'completed']) : '';
+                    servicos.hasClass('active') ? servicos.removeClass(['active', 'completed']): '';
+                    senhas.hasClass('active') ? senhas.removeClass(['active', 'completed']): '';
+                    home.hasClass('active') ? home.removeClass('active').addClass('completed') : '';
+                break
+                case '#servicos':
+                    servicos.hasClass('completed') ? servicos.removeClass('completed').addClass('active') : servicos.addClass('active');
+                    !identificarCooperado.hasClass('completed') ? identificarCooperado.addClass('completed') : '';
+                    !home.hasClass('completed') ? home.addClass('completed') : '';
+                    prioridades.hasClass('active') || prioridades.hasClass('completed') ? prioridades.removeClass('active completed') : '';
+                    senhas.hasClass('active') ? senhas.removeClass(['active', 'completed']): '';
+                    identificarCooperado.hasClass('active') ? identificarCooperado.removeClass('active').addClass('completed') : '';
+                break
+                case '#prioridades':
+                    $(`${page}-step`).toggleClass('active');
+                    servicos.hasClass('active') ? servicos.removeClass('active').addClass('completed') : '';
+                    senhas.hasClass('active') ?? senhas.removeClass(['active', 'completed']);
+                break
+                case '#printing':
+                    !print.hasClass('active') ? print.addClass('active') : print.removeClass('completed');
+                    prioridades.hasClass('active') ? prioridades.removeClass('active').addClass('completed') : '';
+                break
+            }
+        }
 
         ctrl.inicio = function() {
             ctrl.atendimento = {};
@@ -244,20 +290,20 @@
             }
         };
 
-        ctrl.setarCooperado = function(nome, cpfcnpj) {
-            if(!nome && !cpfcnpj){
+        ctrl.setarCooperado = function(nome, conta) {
+            if(!nome && !conta){
                 return ctrl.cliente = {
                     nome: '',
-                    cpfcnpj: ''
+                    conta: ''
                 }
             }
 
             ctrl.cliente.nome = nome;
-            ctrl.cliente.cpfcnpj = cpfcnpj;
+            ctrl.cliente.conta = conta;
         };
 
         ctrl.buscarCooperado = function(){
-            var url = `http://10.54.56.236:3000/cooperado/${ctrl.cpfcnpj}`;
+            var url = `http://10.54.56.236:3000/conta/${ctrl.conta}`;
 
             $http({
                 method: 'GET',
@@ -270,7 +316,7 @@
                         ctrl.gotoPage('#identificarCooperado');
                         return;
                     }
-                    ctrl.setarCooperado(response.data.nome, response.data.cpfcnpj);
+                    ctrl.setarCooperado(response.data.nome, response.data.contacorrente);
                     ctrl.gotoPage('#servicos');
             },
             function(response){

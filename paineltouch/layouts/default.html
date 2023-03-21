@@ -2,7 +2,40 @@
     <img ng-src="{{ctrl.urlLogo}}" alt="logo" width="250">
     <h1 ng-if="!ctrl.cliente.nome">Seja bem vindo!</h1>
     <h1 ng-if="ctrl.cliente.nome != ''">Seja bem vindo {{ctrl.cliente.nome}}! </h1>
-    <span>Retire sua senha tocando na opção desejada</p>
+    <div class="step">
+        <div class="stepper-wrapper">
+            <div id="identificacao-step" class="stepper-item active">
+                <div class="step-counter ">
+                    <i class="fa-solid fa-user fa-2xl"></i>
+                </div>
+                <div class="step-name">Identificação</div>
+            </div>
+            <div id="identificarCooperado-step" class="stepper-item">
+                <div class="step-counter">
+                    <i class="fa-solid fa-user-check fa-2xl"></i>
+                </div>
+                <div class="step-name">Meus dados</div>
+            </div>
+            <div id="servicos-step" class="stepper-item">
+                <div class="step-counter">
+                    <i class="fa-solid fa-handshake-angle fa-2xl"></i>
+                </div>
+                    <div class="step-name">Serviço</div>
+            </div>
+            <div id="prioridades-step" class="stepper-item">
+                <div class="step-counter">
+                    <i class="fa-solid fa-wheelchair fa-2xl"></i>
+                </div>
+                <div class="step-name">Prioridade</div>
+            </div>
+            <div id="printing-step" class="stepper-item">
+                <div class="step-counter">
+                    <i class="fa-solid fa-tags fa-2xl"></i>
+                </div>
+                <div class="step-name">Senha</div>
+            </div>
+        </div>
+    </div>
 </div>
 <!-- 
     Escolher entre convencional ou prioridade
@@ -31,8 +64,8 @@
 <div id="identificarCooperado" class="page">
     <div class="col-xs-12">
         <div class="touch-control identificador">
-            <p>Informe seu CPF ou CNPJ:</p>
-            <input type="text" name="cpfcnpj" id="cpfcnpj" class="inputCooperado" ng-model="ctrl.cpfcnpj" required>
+            <p>Informe o número da conta:</p>
+            <input type="text" name="conta" id="conta" class="inputCooperado" ng-model="ctrl.conta" required>
             <button class="btn btn-lg btn-block" ng-click="ctrl.buscarCooperado()">
                 Próxima etapa
                 <i class="fa-solid fa-user-check"></i>
@@ -134,40 +167,40 @@
 
 <div class="page-buttons">
     <div data-target="#servicos" class="buttons">
-        <button class="btn btn-lg btn-default pull-left" ng-click="ctrl.paginator.prev()" ng-show="ctrl.paginator.hasPrev()">
+        <button class="btn btn-lg btn-secondary pull-left" ng-click="ctrl.paginator.prev()" ng-show="ctrl.paginator.hasPrev()">
             <span class="icon glyphicon glyphicon-chevron-left"></span>
             Página anterior
         </button>
 
-        <button class="btn btn-lg btn-default pull-right" ng-click="ctrl.paginator.next()" ng-show="ctrl.paginator.hasNext()">
+        <button class="btn btn-lg btn-secondary pull-right" ng-click="ctrl.paginator.next()" ng-show="ctrl.paginator.hasNext()">
             Próxima página
             <span class="icon glyphicon glyphicon-chevron-right"></span>
         </button>
     </div>
     
     <div data-target="#tipo-atendimento" class="buttons">
-        <button class="btn btn-lg btn-default pull-left" ng-click="ctrl.inicio()">
+        <button class="btn btn-lg btn-secondary pull-left" ng-click="ctrl.inicio()">
             <span class="icon glyphicon glyphicon-chevron-left"></span>
             Voltar para serviços
         </button>
     </div>
     
     <div data-target="#prioridades" class="buttons">
-        <button class="btn btn-lg btn-default pull-left" ng-click="ctrl.inicio()">
-            <span class="icon glyphicon glyphicon-chevron-left"></span>
+        <button class="btn btn-lg btn-secondary pull-left" ng-click="ctrl.gotoPage('#servicos')">
+            <i class="fa-solid fa-arrow-left"></i>
             Voltar para serviços
         </button>
     </div>
 
     <div data-target="#servicos" class="buttons">
-        <button class="btn btn-lg btn-default pull-left" ng-click="ctrl.inicio()">
-            <span class="icon glyphicon glyphicon-chevron-left"></span>
+        <button class="btn btn-lg btn-secondary pull-left" ng-click="ctrl.inicio()">
+            <i class="fa-solid fa-arrow-left"></i>
             Voltar para identificação
         </button>
     </div>
     <div data-target="#identificarCooperado" class="buttons">
-        <button class="btn btn-lg btn-default pull-left" ng-click="ctrl.inicio()">
-            <span class="icon glyphicon glyphicon-chevron-left"></span>
+        <button class="btn btn-lg btn-secondary pull-left" ng-click="ctrl.inicio()">
+            <i class="fa-solid fa-arrow-left"></i>
             Voltar para identificação
         </button>
     </div>

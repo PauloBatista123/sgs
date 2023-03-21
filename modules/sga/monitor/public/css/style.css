@@ -56,6 +56,17 @@
     transition: all 0.3s;
 }
 
+#monitor .servico .fila li {
+    margin: 0.5rem;
+    padding: 0.5rem;
+    list-style: none;
+    float: left;
+    border: 1px solid rgba(182, 182, 182, 0.295);
+    border-radius: 8px;
+
+    transition: all 0.3s;
+}
+
 #monitor .servico .fila li.prioridade {
     margin: 0.5rem;
     padding: 0.5rem;
@@ -79,9 +90,14 @@
     background-color: #d8d8d8;
 }
 
-#monitor .servico .fila li a {
+#monitor .servico .fila li a{
     float: left;
     text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    color: #49479D;
 }
 
 #monitor .servico .fila li.prioridade a {

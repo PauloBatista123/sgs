@@ -89,7 +89,7 @@
     padding-right: 1rem;
 }
 
-.container-fluid .navbar-brand {
+.navbar-brand {
     width: 110px;
     height: 40px;
     margin: 0 10px 0 0;
@@ -412,4 +412,19 @@ td.buttons {
 
 #btn-delete {
     float: right;
+}
+
+.nav-item span{
+    color: #00333f;
+    padding-left: 8px;
+}
+
+.nav-item a:hover{
+    filter: brightness(0.7);
+}
+
+.offcanvas-body p {
+    font-weight: bold;
+    margin-top: 1rem;
+    font-size: 1.125rem;
 }

@@ -36,10 +36,15 @@ SGA.Monitor = {
                                     for (var j = 0; j < fila.length; j++) {
                                         var atendimento = fila[j];
                                         var onclick = "SGA.Monitor.Senha.view(" + atendimento.id + ")";
-                                        var item = '<li class="' + (atendimento.prioridade ? 'prioridade' : '') + '">';
+                                        var item = `<li class="${atendimento.prioridade ? 'prioridade' : ''}">`;
                                         var title = atendimento.nomePrioridade + ' (' + atendimento.espera + ')';
-                                        item += '<a href="javascript:void(0)" onclick="' + onclick + '" title="' + title + '">' + atendimento.senha + '</a>';
-                                        item += '</li>';
+                                        item += `
+                                        <a href="javascript:void(0)" onclick="${onclick}" title="${title}">
+                                            <span class="fw-bold fs-5">${atendimento.senha}</span>
+                                            <span class="fw-bold fs-6">${atendimento.nomePrioridade}</span>
+                                            <p>Espera: ${atendimento.espera}</p>
+                                            <p>Chegada: ${atendimento.chegada}</p>
+                                        </a></li>`;
                                         list.append(item);
                                     }
                                 } else {
@@ -163,39 +168,74 @@ SGA.Monitor = {
                 complete: function() {
                     $(SGA.Monitor.Senha.dialogView).modal('hide');
                     $(SGA.Monitor.Senha.dialogTransfere).modal('hide');
+                    SGA.Monitor.Senha.dispatchMessage('Senha transferida com sucesso!', 'success');
                 }
             });
         },
 
         reativar: function(id) {
-            if (window.confirm(SGA.Monitor.alertReativar)) {
-                SGA.ajax({
-                    url: SGA.url('reativar'),
-                    type: 'post',
-                    data: { 
-                        id: id 
-                    },
-                    complete: function() {
-                        $(SGA.Monitor.Senha.dialogView).modal('hide');
-                        $(SGA.Monitor.Senha.dialogSearch).modal('hide');
-                    }
-                });
-            }
+            Swal.fire({
+                title: 'Desjea continuar?',
+                text: SGA.Monitor.alertReativar,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#003641',
+                cancelButtonColor: '#49479D',
+                confirmButtonText: 'Confirmar',
+                cancelButtonText: 'Cancelar'
+              }).then((result) => {
+                if (result.isConfirmed) {
+                    SGA.ajax({
+                        url: SGA.url('reativar'),
+                        type: 'post',
+                        data: { 
+                            id: id 
+                        },
+                        complete: function() {
+                            $(SGA.Monitor.Senha.dialogView).modal('hide');
+                            $(SGA.Monitor.Senha.dialogSearch).modal('hide');
+                            SGA.Monitor.Senha.dispatchMessage('Senha reativada com sucesso!', 'success');
+                        }
+                    });
+                }
+              });
         },
 
         cancelar: function(id) {
-            if (window.confirm(SGA.Monitor.alertCancelar)) {
-                SGA.ajax({
-                    url: SGA.url('cancelar'),
-                    type: 'post',
-                    data: { 
-                        id: id 
-                    },
-                    complete: function() {
-                        $(SGA.Monitor.Senha.dialogView).modal('hide');
-                    }
-                });
-            }
+            Swal.fire({
+                title: 'Desjea continuar?',
+                text: SGA.Monitor.alertCancelar,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#003641',
+                cancelButtonColor: '#49479D',
+                confirmButtonText: 'Confirmar',
+                cancelButtonText: 'Cancelar'
+              }).then((result) => {
+                if (result.isConfirmed) {
+                    SGA.ajax({
+                        url: SGA.url('cancelar'),
+                        type: 'post',
+                        data: { 
+                            id: id 
+                        },
+                        complete: function() {
+                            $(SGA.Monitor.Senha.dialogView).modal('hide');
+                            SGA.Monitor.Senha.dispatchMessage('Senha cancelada com sucesso!', 'success');
+                        }
+                    });
+                }
+              });
+        },
+
+        dispatchMessage: function(message, icon){
+            Swal.fire({
+                position: 'top-end',
+                icon: icon,
+                title: message,
+                showConfirmButton: false,
+                timer: 1500
+            })
         }
     }
     

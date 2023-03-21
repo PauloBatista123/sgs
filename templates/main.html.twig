@@ -32,50 +32,71 @@
         {{ block('head') }}
     </head>
     <body>
+        <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasExampleLabel">Menu</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                {% if unidade %}
+                <p>{{ unidade }}</p>
+                <ul class="nav flex-column">
+                    {% for modulo in modulosUnidade %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ baseUrl() }}/modules/{{ modulo.chave }}">
+                            <img src="{{ resources('images/icon.png', modulo.chave) }}" width="20"/>
+                            <span>{{ modulo.nome }}</span>
+                        </a>
+                    </li>
+                    {% endfor %}
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-target="#dialog-unidade" data-bs-toggle="modal">
+                            <i class="fa-solid fa-arrow-right-arrow-left"></i>
+                            <span>{% trans %}Trocar unidade{% endtrans %}</span>
+                        </a>
+                    </li>
+                </ul>
+                {% else %}
+                <ul class="navbar-nav ">
+                    <li class="nav-item">
+                        <a href="#dialog-unidade" role="button" data-bs-toggle="modal" aria-expanded="false">{% trans %}Escolher unidade{% endtrans %}</a>
+                    </li>
+                </ul>
+                {% endif %}
+
+                {% if modulosGlobal|length %}
+                <p>{% trans %}Global{% endtrans %}</p>
+                <ul class="nav flex-column">
+                    {% for modulo in modulosGlobal %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ baseUrl() }}/modules/{{ modulo.chave }}">
+                            <img src="{{ resources('images/icon.png', modulo.chave) }}" width="20"/>
+                            <span>{{ modulo.nome }}</span>
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </div>
+            <div class="offcanvas-footer py-2 border-top">
+                <div class="row">
+                    <div class="col-12 d-flex justify-content-center flex-column align-items-center text-center fw-bold text-muted">
+                        <img src="{{baseUrl() }}/images/SGS.png" alt="" width="130">
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <nav class="navbar navbar-expand-lg navbar-sga" role="navigation">
+            <a class="navbar-brand" href="{{ baseUrl() }}"></a>
             <div class="container-fluid">
-                <a class="navbar-brand" href="{{ baseUrl() }}"></a>
-                <div class="collapse navbar-collapse novosga-navbar">
-                    {% if unidade %}
-                    <ul class="navbar-nav">
-                        <li class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{ unidade }} <b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                {% for modulo in modulosUnidade %}
-                                <li><a class="dropdown-item" href="{{ baseUrl() }}/modules/{{ modulo.chave }}">{{ modulo.nome }}</a></li>
-                                {% endfor %}
-                                <li><hr class="dropdown-divider"></li>
-                                <li>
-                                    <a class="dropdown-item" data-bs-target="#dialog-unidade" data-bs-toggle="modal">
-                                        {% trans %}Trocar unidade{% endtrans %}
-                                        <i class="fa-solid fa-arrow-right-arrow-left"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                    {% else %}
-                    <ul class="navbar-nav ">
-                        <li class="nav-item">
-                            <a href="#dialog-unidade" role="button" data-bs-toggle="modal" aria-expanded="false">{% trans %}Escolher unidade{% endtrans %}</a>
-                        </li>
-                    </ul>
-                    {% endif %}
-                    {% if modulosGlobal|length %}
-                    <ul class="navbar-nav">
-                        <li class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">{% trans %}Global{% endtrans %} <b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                {% for modulo in modulosGlobal %}
-                                <li><a class="dropdown-item" href="{{ baseUrl() }}/modules/{{ modulo.chave }}">{{ modulo.nome }}</a></li>
-                                {% endfor %}
-                            </ul>
-                        </li>
-                    </ul>
-                    {% endif %}
-                    <ul class="navbar-nav navbar-right">
-                        <li class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{ usuario.nome }} <b class="caret"></b></a>
+                <a class="btn btn-link" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
+                    <i class="fa-solid fa-bars fa-xl"></i>
+                </a>
+                <div class="d-flex flex-row justify-content-end">
+                    <ul class="navbar-nav navbar-right d-flex flex-left">
+                        <li class="nav-item dropdown dropstart">
+                            <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-regular fa-circle-user"></i> {{ usuario.nome }} <b class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="{{ baseUrl() }}/profile"><span class="glyphicon glyphicon-user"></span> {% trans %}Perfil{% endtrans %}</a></li>
                                 <li><a class="dropdown-item" href="{{ baseUrl() }}/logout"><span class="glyphicon glyphicon-off"></span> {% trans %}Sair{% endtrans %}</a></li>

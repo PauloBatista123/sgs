@@ -196,7 +196,7 @@ SGA.Triagem = {
 
     senhaNormal: function(btn) {
         btn = $(btn);
-        SGA.Triagem.distribuiSenha(btn.data('id'), 1);
+        SGA.Triagem.distribuiSenha(btn.data('id'), 9);
     },
 
     senhaPrioridade: function(btn, complete) {

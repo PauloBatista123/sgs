@@ -22,18 +22,18 @@
 
 {# busca #}
 <div id="dialog-busca" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">{% trans %}Busca{% endtrans %}</h5>
+                <h5 class="modal-title">{% trans %}Buscar Senha{% endtrans %}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form class="form-inline" role="form" onsubmit="return false">
-                    <div class="form-group">
-                        <input id="numero_busca" type="text" maxlength="5" class="form-search form-control" placeholder="{% trans %}Número{% endtrans %}" />
+                    <div class="input-group mb-3">
+                        <input id="numero_busca" type="text" maxlength="5" class="form-control" placeholder="{% trans %}Número{% endtrans %}" aria-label="Recipient's username" aria-describedby="button-addon2">
+                        <button class="btn btn-outline-primary" onclick="SGA.Monitor.Senha.consultar()" type="button" id="btn-consultar">{% trans %}Consultar{% endtrans %}</button>
                     </div>
-                    <button id="btn-consultar" class="btn btn-primary" onclick="SGA.Monitor.Senha.consultar()">{% trans %}Consultar{% endtrans %}</button>
                 </form>
                 <div class="result">
                     <table id="result_table" class="table">
@@ -124,7 +124,7 @@
                     {% trans %}Reativar senha{% endtrans %}
                 </button>
                 <button id="btn-transferir"
-                        class="btn btn-default"
+                        class="btn btn-warning"
                         onclick="SGA.Monitor.Senha.transfere($('#senha_id').val(), $('#senha_numero').text())">
                     {% trans %}Transferir / Alterar senha{% endtrans %}
                 </button>
@@ -143,16 +143,16 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">{% trans %}Tranferir Senha{% endtrans %}</h4>
+                <h5 class="modal-title">{% trans %}Transferir{% endtrans %}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <input id="transfere_id" type="hidden" />
-                <div class="form-group">
+                <div class="mb-3">
                     <label>{% trans %}Senha|Bilhete{% endtrans %}</label>
                     <span id="transfere_numero"></span>
                 </div>
-                <div class="form-group">
+                <div class="mb-3">
                     <label for="transfere_servico">{% trans %}Novo serviço{% endtrans %}</label>
                     <select id="transfere_servico" class="form-control">
                         {% for su in servicos %}
@@ -160,7 +160,7 @@
                         {% endfor %}
                     </select>
                 </div>
-                <div class="form-group">
+                <div class="mb-3">
                     <label>{% trans %}Nova prioridade{% endtrans %}</label>
                     <select id="transfere_prioridade" class="form-control">
                         {% for prioridade in prioridades %}
