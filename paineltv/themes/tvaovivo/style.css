@@ -6,6 +6,7 @@
 html, body { 
 	height: 100%;
 	width: 100%;
+	font-size: 16px;
 }
  
  #layout-content {
@@ -37,6 +38,7 @@ html, body {
 	margin-left: auto;
 	margin-right: auto;
 	overflow: hidden;
+
 }
 
 #relogio {
@@ -51,9 +53,11 @@ html, body {
 	float: right;
 	width: 35%;
 	width: 35vw;
-	height: 80.1vh;
+	height: 72vh;
 	overflow: hidden;
 	padding-bottom: 0.5%;
+	background-color: #003641;
+	box-shadow: rgb(4 49 58 / 87%) -7px -4px 20px 0px;
 	
 }
 #slides-container {
@@ -69,16 +73,6 @@ html, body {
 /* 
  * Senha Atual - Ultima senha chamada
  */
-#mensagem {
-    padding-bottom: 20px;
-    padding-left: 20px;
-	text-align: center;
-}
-
-#mensagem span {
-    padding: 10px 29px;
-    display: inline-block;
-}
 
 #senha {
     font-weight: bold;
@@ -87,37 +81,33 @@ html, body {
 
 /* local */
 
-#local {
-    text-align: center;
-    margin: 0 auto;
-}
 
-#local-numero {    
-    font-weight: bold;
-    text-align: center;
-    margin: 0 auto;
-}
 
 /*
  * Ultimas senhas chamadas
  */
 #historico {
-	height: 20%;
+	height: 23vh;
     width: 100%;
     position: absolute;
     bottom: 0;
 }
 
 #historico .senhas {
-    padding-top: 10px;
-    padding-bottom: 10px;
+  
     overflow: hidden;
 	height: 100%;
 }
 
 #historico .senhas div.senha-chamada {
     text-align: center;
-    display: inline-block;
+    display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	height: 100%;
+	padding-bottom: 10px;
+	padding-top: 10px;
+	
 }
 
 #historico .senhas div.senha-chamada div.senha { 
@@ -128,57 +118,178 @@ html, body {
 #historico .senhas div.senha-chamada div.local {
     text-align: center;
 }
+.historico-header{
+	background-color: rgba(0, 0, 0, .6);
+	color: #fff;
+	padding: 1rem;
+	width: 100%;
+	height: 5vh;
+	text-align: center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 1.5rem;
+	
 
+}
+.topo{
+	display: flex;
+	flex:1;
+	flex-direction: row;
+	background-color:#003641;
+
+}
+
+.video-stream{
+	height: 1400px !important;
+	width: 900px !important;
+
+}
+.barra-lateral-container{
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+	height: 100%;
+	width: 100%;
+}
+
+#mensagem{
+	display:flex;
+	flex-direction: column;
+	justify-content:center;
+	font-size: 2.0rem;
+	align-items: center;
+	background-color: #fff;
+	color: #003641;
+	box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+	padding: 1rem;
+	width: 100%;
+	border-bottom: 15px solid #00AE9D;
+	border-bottom-left-radius: 15px;
+	border-bottom-right-radius: 15px;
+	border-top-right-radius: 15px;
+	
+
+}
+
+#mensagem span, #guiche span{
+	font-size: 3.0rem;
+
+
+}
+
+#senha-container{
+	width: 100%;
+	padding-left: 1.5rem;
+	padding-top: 1.0rem;
+
+
+}
+.header-mensagem{
+	background-color:#fff;
+	color: #49479D;
+	padding: 0.5rem !important;
+	width: 30%;
+    font-size: 2.0rem;
+	font-weight: bold;
+	border-left: 1px solid #fff;
+	border-top: 1px solid #fff;
+	border-right: 1px solid #fff;
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+	border-bottom: 1px solid #003641;
+	
+
+}
+#local{
+	background-color:#fff;
+	color: #49479D !important;
+	padding: 0.5rem !important;
+	width: 30%;
+    font-size: 2.0rem;
+	font-weight: bold;
+	border-left: 1px solid #fff;
+	border-top: 1px solid #fff;
+	border-right: 1px solid #fff;
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+	border-bottom: 1px solid #003641;
+	margin-top: 2rem;
+	float: right;
+	text-align: right;
+	
+}
+#guiche{
+	display:flex;
+	flex-direction: column;
+	justify-content:center;
+	font-size: 1.5rem;
+	align-items: center;
+	background-color: #fff;
+	color: #003641;
+	box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+	padding: 1rem;
+	width: 100%;
+	border-bottom: 15px solid #00AE9D;
+	border-bottom-left-radius: 15px;
+	border-bottom-right-radius: 15px;
+	border-top-left-radius: 15px;
+
+}
 
 /* cores - atendimento normal */
-#layout.normal { background-color: hsl(167, 71%, 34%); }
-#layout.normal #mensagem span { color: #fff; }
-#layout.normal #senha span { color: #eeff00; }
-#layout.normal #local span { color: #fff; }
-#layout.normal #local-numero span { color: #fff; }
+#layout.normal { background-color: rgb(0, 54, 65); }
+#layout.normal #senha span { color: #003641 }
 #layout.normal #historico .senhas { background: rgba(0, 0, 0, .4); }
-#layout.normal #historico .senhas * { color: #fff; }
 
 /* cores - atendimento prioritario */
-#layout.prioridade { background-color: #fff; }
-#layout.prioridade #senha-container span { color: #d2322d; }
-#layout.prioridade #historico .senhas { background-color: #f1f1f1; }
-#layout.prioridade #historico .senhas * { color: #333; }
+#layout.prioridade { background-color: #003641; }
+#layout.prioridade #senha-container span { color: #003641; }
+#layout.prioridade #historico .senhas { background-color: #003641; }
 
 /* cores - atendimento prioritario quando no historico */
-#historico .senhas .prioridade * { color: #d2322d !important; }
+#historico .senhas .prioridade * { color: #003641 !important; }
 
 /* fonts */
 
-#mensagem span {
-	font-size: 3.0em; /* gambiarra pra funcionar em navegadores que não suportem css3 */
-    font-size: 6vmin;
+
+#senha span, #local-numero span {
+	font-size: 8.0rem; /* gambiarra pra funcionar em navegadores que não suportem css3 */
+	font-weight: bold;
+   
 }
 
-#senha span {
-	font-size: 5.0em; /* gambiarra pra funcionar em navegadores que não suportem css3 */
-    font-size: 14vmin;
-}
 
-#local span {
-	font-size: 4.0em; /* gambiarra pra funcionar em navegadores que não suportem css3 */
-    font-size: 8vmin;
-}
 
-#local-numero span {
-	font-size: 5.0em; /* gambiarra pra funcionar em navegadores que não suportem css3 */
-    font-size: 14vmin;
-}
 
 .senha-chamada .senha span {
-	font-size: 4.5em; /* gambiarra pra funcionar em navegadores que não suportem css3 */
-    font-size: 13vmin;
+	font-size: 5rem; /* gambiarra pra funcionar em navegadores que não suportem css3 */
+    color:#003641;
 }
 
 .senha-chamada .local span {
-	font-size: 3.8em; /* gambiarra pra funcionar em navegadores que não suportem css3 */
-    font-size: 5vmin;
+	font-size: 3rem; /* gambiarra pra funcionar em navegadores que não suportem css3 */
+    color:#003641;
 }
+
+.card {
+	height: 100%;
+	border-radius: 20px;
+	background: rgb(238,237,246);
+    background: linear-gradient(90deg, rgba(238,237,246,1) 0%, rgba(226,226,235,1) 36%, rgba(232,241,242,1) 100%);
+	width: 98%;
+	
+  }
+  
+  .card__content {
+	border-radius: 17px;
+	height: 100%;
+	align-items: center;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+  }
 
 
 /* 800x600 */
@@ -198,9 +309,6 @@ html, body {
 		display: none;
 	}
 	
-	#senha-container {
-		float: none;
-	}
 	
 	#relogio-container {
 		display: none;
@@ -208,20 +316,12 @@ html, body {
 	
 	/* textos */
 	
-	#mensagem span {
-    font-size: 10vw;
-	}
+	
 
 	#senha span {
 		font-size: 25vw;
 	}
 
-	#local span {
-		font-size: 10vw;
-	}
-
-	#local-numero span {
-		font-size: 14em;
-	}
+	
 	
 }

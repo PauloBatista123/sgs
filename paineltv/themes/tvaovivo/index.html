@@ -1,42 +1,72 @@
+
 <div id="layout-content">
-	<iframe width="1232" height="750" src="https://www.youtube.com/embed/M7lc1UVf-VE?autoplay=1&controls=0&loop=1&start=3&color=white"
-	frameborder="0" allowfullscreen></iframe>
-	<div id="barra-lateral">
-		<div id="senha-container"> 
-			<div id="mensagem">
-				<span>{{ ultima.mensagem }}</span>
-			</div>
-			<div class="row">
-				<div>
-					<div id="senha" class="blink">
-						<span>{{ ultima.texto }}</span>
+	<div class="topo">
+		<iframe id="slide" width="1232" height="775" src="themes/tvaovivo/slides.php" frameborder="0"></iframe>
+	
+		<div id="barra-lateral">
+			<div class="barra-lateral-container">
+				<div id="senha-container"> 
+					<!-- BOX SENHA -->
+					<div class="row">
+						<div class="header-mensagem">
+							<span>SENHA</span>
+						</div>
+						<div id="mensagem">
+							<span>{{ ultima.mensagem }}</span>
+							<div>
+								<div id="senha" class="blink">
+									<span>{{ ultima.texto }}</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+                   <!-- BOX LOCAL -->
+					<div class="row">
+						<div id="local" class="local">
+								<span>LOCAL</span>
+						</div>
+							<div id="guiche">
+								<span>{{ ultima.local }}</span>						
+								<div>
+									<div id="local-numero" class="numero-local">
+									<span>{{ ultima.numeroLocal }}</span>
+									</div>
+								</div>
+						</div>
 					</div>
 				</div>
-				<div>
-					<div id="local" class="local">
-						<span>{{ ultima.local }}</span>
-					</div>
-					<div id="local-numero" class="numero-local">
-						<span>{{ ultima.numeroLocal }}</span>
-					</div>
+				
+				<div id="relogio-container">
+					<iframe id="relogio" src="themes/tvaovivo/relogio.html" frameborder="0"></iframe>
 				</div>
+				
 			</div>
-		</div>
-		<div id="separador"></div>
-		<div id="relogio-container">
-			<iframe id="relogio" src="themes/tvaovivo/relogio.html" frameborder="0"></iframe>
-		</div>
+			
+		</div>	
+
 	</div>
 	
+	
+	<div class="historico-header">
+		<span>ÚLTIMAS SENHAS CHAMADAS</span>
+	</div>
     <div id="historico">
+		
         <div class="senhas">
-            <div class="col-sm-3 senha-chamada {{ senha.styleClass }}" ng-repeat="senha in historico | limitTo: 4">
-                <div class="senha">
-                    <span>{{ senha.texto }}</span>
-                </div>
-                <div class="local">
-                    <span>{{ senha.local }}: {{ senha.numeroLocal }}</span>
-                </div>
+            <div class="col-sm-3 col-md-3 col-lg-3 senha-chamada" ng-repeat="senha in historico | limitTo: 4">
+				<div class="card">
+				<div class="card__content">
+					<div class="senha">
+						<span>{{ senha.texto }}</span>
+					</div>
+					<div class="local">
+						<span>{{ senha.local }}: {{ senha.numeroLocal }}</span>
+					</div>
+				</div>
+					
+				</div>
+                
             </div>
         </div>
     </div>
