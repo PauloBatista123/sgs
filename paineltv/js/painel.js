@@ -45,6 +45,7 @@
                 }, self.options.interval * 1000);
                 loadSenhas(this);
             }
+            loadRss();
         };
 
         self.pause = function() {
@@ -137,6 +138,14 @@
                 }
             });
         }
+    };
+
+    var loadRss = function() {
+        apiRequest(url + '/api/rss/', {
+            success: function(data) {
+                console.log(data);
+            }
+        });
     };
     
     var apiRequest = function(url, args) {

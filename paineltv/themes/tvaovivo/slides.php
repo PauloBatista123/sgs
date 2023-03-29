@@ -46,23 +46,10 @@
 
 		<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 		<script src="responsiveslides.min.js"></script>
-		<script>
-			<!-- Opções disponíveis em http://responsiveslides.com/ -->
-			$(function() {
-				$(".rslides").responsiveSlides({
-					timeout: 10000
-				});
-			});
-		</script>
+		<script type="text/javascript" src="script.js"></script>
 	</head>
 	<body>
 		<ul class="rslides">
-			<?php 
-			foreach (new DirectoryIterator('img/') as $file) {
-				if($file->isDot()) continue;
-				print '<li><img src=img/' . $file->getFilename() . '></li>';
-			} 
-			?>
 		</ul>
 	</body>
 </html>

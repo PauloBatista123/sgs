@@ -69,6 +69,21 @@ class ApiV1 extends Api
     }
 
     /**
+     * Retorna todas as unidades ativas.
+     *
+     * @return array
+     */
+    public function slides()
+    {
+        return $this->em->createQuery('
+            SELECT
+                e
+            FROM
+                Novosga\Model\Slide e
+        ')->getResult();
+    }
+
+    /**
      * Retorna os gerentes por serviço.
      *
      * @return array

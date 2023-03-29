@@ -7,6 +7,8 @@ use Novosga\Model\SequencialModel;
 use Novosga\Model\Unidade;
 use Novosga\Model\Contador;
 use Novosga\Controller\CrudController;
+use Novosga\Http\JsonResponse;
+use Novosga\Model\Slide;
 
 /**
  * UnidadesController.
@@ -75,6 +77,11 @@ class UnidadesController extends CrudController
     {
         parent::edit($context, $id);
         $this->app()->view()->set('grupos', $this->getGruposFolhasDisponiveis($this->model));
+
+        $query = $this->em()->createQuery("SELECT e FROM Novosga\Model\Slide e WHERE e.unidade = :unidade");
+        $query->setParameter('unidade', $this->model->getId());
+        $slides = $query->getResult();
+        $this->app()->view()->set('slides', $slides);
     }
 
     /**
@@ -136,5 +143,77 @@ class UnidadesController extends CrudController
             $this->em()->rollback();
             throw $e;
         }
+    }
+
+    public function salvar_slide(Context $context)
+    {
+        $response = new JsonResponse(true);
+        $arquivo = $_FILES['imagem']['name'];
+        $tmpCaminho = $_FILES['imagem']['tmp_name'];
+        $unidade_id = $context->request()->post('unidade_id');
+        $newCaminho = NOVOSGA_PUBLIC.'/images/slides/'.$unidade_id;
+                
+        try{
+
+            $unidade = $this->em()->find('Novosga\Model\Unidade', $unidade_id);
+
+            if(!is_dir($newCaminho)){
+                mkdir($newCaminho);
+            }
+    
+            if($arquivo){
+                move_uploaded_file($tmpCaminho, $newCaminho.'/'.$arquivo);
+            }
+        
+            $slide = new Slide();
+            $slide->setCaminho('/images/slides/'.$unidade_id.'/'.$arquivo);
+            $slide->setUnidade($unidade);
+            $this->em()->persist($slide);
+            $this->em()->flush();
+
+            $response->success = true;
+            $response->data = [
+                'completeUrl' => $newCaminho.'/'.$arquivo,
+                'unidade' => $unidade_id,
+                'caminho' => $slide->getCaminho(),
+                'id' => $slide->getId(),
+            ];
+
+        }catch(\Exception $e){
+            $response->success = false;
+            $response->message = $e->getMessage();
+        }
+
+        return $response;       
+    }
+
+    public function excluir_slide(Context $context)
+    {
+        $response = new JsonResponse(true);
+        $id = $context->request()->get('id');
+        $caminho = $context->request()->get('caminho');
+        $unidade_id = $context->request()->get('unidade');
+
+        try{
+            
+            if(unlink(NOVOSGA_PUBLIC.$caminho)){
+
+                $unidade = $this->em()->find('Novosga\Model\Slide', $id);
+                $this->em()->remove($unidade);
+                $this->em()->flush();
+
+                $response->success = true;
+
+            }else{
+                $response->success = false;
+                $response->message = 'Erro ao excluir o arquivo';
+            }
+
+        }catch(\Exception $e){
+            $response->success = false;
+            $response->message = $e->getMessage();
+        }
+
+        return $response; 
     }
 }

@@ -71,6 +71,15 @@ $app->get('/unidades', function() use ($api) {
 });
 
 /**
+ * Retorna todas os slides disponíveis
+ * 
+ * GET /slides
+ */
+$app->get('/slides', function() use ($api) {
+    echo json_encode($api->slides());
+});
+
+/**
  * Retorna todas as prioridades disponíveis
  * 
  * GET /prioridades
@@ -294,6 +303,20 @@ $app->post('/distribui', function() use ($app, $api, $server) {
 $app->get('/atendimento/:id', function($id) use ($app, $api, $server) {
     $server->checkAccess();
     echo json_encode($api->atendimento($id));
+});
+
+$app->get('/rss', function() {
+    $curl = curl_init();
+    curl_setopt($curl, CURLOPT_URL, 'https://www.agrolink.com.br/rss/noticias.rss');
+    curl_setopt($curl, CURLOPT_FAILONERROR, true);
+    curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($curl, CURLOPT_TIMEOUT, 15);
+    $response = curl_exec($curl);
+    curl_close($curl); 
+
+    echo $response;
+
 });
 
 /**

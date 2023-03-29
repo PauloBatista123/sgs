@@ -9,9 +9,9 @@ angular.module('app', [])
         
         $scope.ultima = {
             texto: 'A000',
-            local: 'Consultório',
+            local: 'Guichê',
             numeroLocal: 0,
-            mensagem: 'Atendimento',
+            mensagem: 'Convencional',
             styleClass: 'inactive'
         };
         
@@ -59,6 +59,29 @@ angular.module('app', [])
                 $.painel().servicos($scope.config.unidade.id);
             }
         };
+
+        $scope.loadRss = function(){
+            $.ajax({
+                url: 'http://localhost/sga/public/api/rss',
+                dataType: 'json',
+                data: args.data || {},
+                success: function(response) {
+                    if (typeof(args.success) === 'function') {
+                        args.success(response);
+                    }
+                },
+                error: function() {
+                    if (typeof(args.error) === 'function') {
+                        args.error();
+                    }
+                },
+                complete: function(response) {
+                    if (typeof(args.complete) === 'function') {
+                        args.complete(response);
+                    }
+                }
+            });
+        }
         
         $scope.changeLang = function() {
             i18n.setLng($scope.config.lang, function(t) {
