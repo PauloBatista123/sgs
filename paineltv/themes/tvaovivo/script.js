@@ -4,11 +4,8 @@
 
   var loadSlides = function() {
     var url = localStorage.getItem('painelweb.url');
-    var unidade = localStorage.getItem('painelweb.unidade');
-    apiRequest(url + '/api/slides', {
-        data: {
-          unidade: unidade.id,
-        },
+    var unidade = JSON.parse(localStorage.getItem('painelweb.unidade'));
+    apiRequest(`${url}/api/slides/${unidade.id}`, {
         success: function(slides) {
            var slide = $('.rslides');
 

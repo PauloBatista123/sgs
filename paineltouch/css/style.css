@@ -84,12 +84,18 @@ html, body, #layout {
     background-color: #00a091;
     color: #fff;
     text-transform: uppercase;
-    font-size: 3rem;
+    font-size: 3.2rem;
     border-bottom: 15px solid #003641;
     display: flex;
     flex-direction: column;
     align-items: center;
     border-radius: 20px;
+}
+
+.page button small {
+    color: #003641;
+    font-size: 1.7rem;
+    font-weight: 500;
 }
 
 .page button:hover {

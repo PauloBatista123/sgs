@@ -44,6 +44,12 @@ class Servico extends SequencialModel
      */
     protected $servicosUnidade;
 
+    /**
+     * @OneToMany(targetEntity="Atendimento", mappedBy="servico")
+     * @JoinColumn(name="servico_id", referencedColumnName="id")
+     */
+    protected $atendimentos;
+
     public function __construct()
     {
     }

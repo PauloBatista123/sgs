@@ -83,6 +83,11 @@
     <div ng-class="ctrl.itemStyleClass($index, ctrl.paginator.items())" ng-repeat="servico in ctrl.paginator.items()" ng-hide="servico.hide">
         <div class="touch-control">
             <button class="btn btn-lg btn-block" ng-click="ctrl.tipoAtendimento(servico.id)">
+                
+                <small ng-if="servico.total == 0">Fila vazia</small>
+                <small ng-if="servico.total == 1">1 senha aguardando</small>
+                <small ng-if="servico.total > 1">{{servico.total}} senhas aguardando</small>
+
                 <span>{{servico.nome}}</span>
                 <span ng-if="servico.nome == 'Atendimento'">
                     <img ng-src="{{ctrl.imgAtendimento}}" alt="" width="60"/>

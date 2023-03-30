@@ -75,8 +75,8 @@ $app->get('/unidades', function() use ($api) {
  * 
  * GET /slides
  */
-$app->get('/slides', function() use ($api) {
-    echo json_encode($api->slides());
+$app->get('/slides(/:unidade)', function($unidade = 0) use ($api) {
+    echo json_encode($api->slides($unidade));
 });
 
 /**

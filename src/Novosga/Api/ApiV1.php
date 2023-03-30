@@ -73,14 +73,16 @@ class ApiV1 extends Api
      *
      * @return array
      */
-    public function slides()
+    public function slides($unidade)
     {
         return $this->em->createQuery('
             SELECT
                 e
             FROM
                 Novosga\Model\Slide e
-        ')->getResult();
+            WHERE
+                e.unidade = :unidade
+        ')->setParameter('unidade', $unidade)->getResult();
     }
 
     /**
@@ -125,7 +127,9 @@ class ApiV1 extends Api
             // servicos da unidade
             return $this->em->createQuery('
                 SELECT
-                    s.id, e.sigla, s.nome, l.nome as local
+                    s.id, e.sigla, s.nome, l.nome as local,
+                    (SELECT count(ate.id) FROM Novosga\Model\Atendimento ate
+                    WHERE ate.servico = s.id AND ate.status = 1) as total
                 FROM
                     Novosga\Model\ServicoUnidade e
                     JOIN e.servico s
