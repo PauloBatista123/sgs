@@ -114,7 +114,7 @@
 
         ctrl.loadGerentes = function() {
             if (ctrl.url) {
-                $http({ method: 'GET', url: ctrl.url + '/api/usuarios/gerencia' }).
+                $http({ method: 'GET', url: `${ctrl.url}/api/usuarios/gerencia/${ctrl.unidade}` }).
                 success(function(data) {
                     ctrl.gerentes = data;
                 });

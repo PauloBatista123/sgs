@@ -157,8 +157,8 @@ $app->get('/servicos(/:unidade)', function($unidade = 0) use ($api) {
  *   }
  * ]
  */
-$app->get('/usuarios/gerencia', function() use ($api) {
-    echo json_encode($api->usuariosGerencia());
+$app->get('/usuarios/gerencia(/:unidade)', function($unidade = 0) use ($api) {
+    echo json_encode($api->usuariosGerencia($unidade));
 });
 
 /**
@@ -343,8 +343,8 @@ foreach ($config->routes() as $pattern => $callable) {
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST, GET, OPTIONS, PUT, DELETE");
 header('Access-Control-Allow-Credentials: true');
-header("Access-Control-Max-Age: 1000");
-header("Access-Control-Allow-Headers: origin, x-requested-with, content-type");
+header("Access-Control-Max-Age: 3600");
+header("Access-Control-Allow-Headers: origin, Content-Type, Authorization, X-Requested-With");
 
 $app->contentType('application/json');
 $app->run();

@@ -90,7 +90,7 @@ class ApiV1 extends Api
      *
      * @return array
      */
-    public function usuariosGerencia()
+    public function usuariosGerencia($unidade = 0)
     {
         return $this->em->createQuery('
             SELECT
@@ -99,8 +99,8 @@ class ApiV1 extends Api
                 Novosga\Model\ServicoUsuario s
                 JOIN s.usuario u
             WHERE
-                s.servico = :servico AND u.status = 1 AND u.id <> 1
-        ')->setParameter(':servico', 2)
+                s.servico = 2 AND u.status = 1 AND u.id <> 1 AND s.unidade = :unidade
+        ')->setParameter(':unidade', $unidade)
           ->getResult();
     }
 
